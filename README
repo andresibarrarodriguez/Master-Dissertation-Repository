@@ -83,10 +83,25 @@ Para la ejecucion de este experimento fueron necesarios los siguientes archivos:
 1. gencan.f90
 2. gencanma-forcutest.f90
 3. run-unc-bound-contr
-4. irace_GENCAN.R
+4. irace_Gencan.R
 
-El algoritmo GENCAN, en este caso lo ejecutaremos mendiante el script run-unc-bound-contr, en este compilaremos las librerias ls, hsl y la interfaz del CUTEst, mediante gencanma-forcutest.f90, para esto ejecutamos: chmod +x run-unc-bound-constr, ese bash compila todas las librerias y seguidamente hacemos: Φ1 Φ2 Φ3 Φ4 Φ5 Φ6 Φ7 Φ8 Φ9 Φ10 ./run-unc-bound-constr problem, donde cada Φi, es un parametro distinto del Algoritmo GENCAN.
+El algoritmo GENCAN, en este caso lo ejecutaremos mendiante el script run-unc-bound-contr, en este compilaremos las librerias ls, hsl y la interfaz del CUTEst, mediante gencanma-forcutest.f90, para esto ejecutamos: chmod +x run-unc-bound-constr, ese bash compila todas las librerias y seguidamente hacemos: Φ1 Φ2 Φ3 Φ4 Φ5 Φ6 Φ7 Φ8 Φ9 Φ10 ./run-unc-bound-constr problem, donde cada Φi, es un parametro distinto del Algoritmo GENCAN. Con la compilacion realizada procedemos a ejecutar el script en R con el comando Rscript irace_Gencan.R.
 
+
+---------------------------------------------------------
+EXPERIMENT 4: I-RACE for tuning ALGENCAN
+---------------------------------------------------------
+
+Para este experimento, se utilizo el ALGENCAN, de la version ALGENCAN 4.0.0, y se busco implementar IRACE, para ajustar los parametros definidos de interes definidos en la disertacion, las instancias de entrenamiento empleadas fueron las definidas en el CUTEst, para problemas no lineales h(x)=0, g(x)\leq 0, x\in \Omega.
+
+Para la ejecucion de este experimento fueron necesarios los siguientes archivos:
+
+1. algencan.f90
+2. algencanma-forcutest.f90
+3. run-nlp
+4. irace_Algencan.R
+
+El algoritmo ALGENCAN, en este caso lo ejecutaremos mendiante el script run-nlp, en este compilaremos las librerias ls, hsl y la interfaz del CUTEst, mediante algencanma-forcutest.f90, para esto ejecutamos: chmod +x run-nlp, ese bash compila todas las librerias y seguidamente hacemos: ζ1 ζ2 ./run-nlp problem, donde cada Φi, es un parametro distinto del Algoritmo GENCAN. Con la compilacion realizada procedemos a ejecutar el script en R con el comando Rscript irace_Gencan.R.
 
 
 
