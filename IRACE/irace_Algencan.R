@@ -4,8 +4,7 @@ library(irace)
 # 
 # ----------------------------------------------------------------------
 evaluate_algencan <- function(problem_id, configuration) {
-  # Directorio base donde están las librerías y donde se copian los tablines
-  base <- Sys.getenv("ALGENCAN", "/home/andres/Experimet 4/algencan-4.0.0/algencan-4.0.0")
+  base <- Sys.getenv("ALGENCAN", "/home/andres/Experimet_4/algencan-4.0.0/algencan-4.0.0")
   mytests_dir <- file.path(base, "mytests")
   exe <- file.path(mytests_dir, "run-nlp")
   
@@ -31,9 +30,14 @@ evaluate_algencan <- function(problem_id, configuration) {
   csupn <- NA
   nlpsupn <- NA
   
-
+  
+  eps_feas <- 1e-8
+  f_bar <- 1e12 
   tabline_path <- file.path(mytests_dir, "tabline.txt")
   
+  # ----------------------------------------------------------------------
+  # 
+  # ----------------------------------------------------------------------
   if (file.exists(tabline_path)) {
     tl <- readLines(tabline_path, warn = FALSE)
     if (length(tl) > 0) {
@@ -42,16 +46,15 @@ evaluate_algencan <- function(problem_id, configuration) {
       num_cols <- length(toks)
       
       if (num_cols >= 29) {
-        f_best     <- suppressWarnings(as.numeric(gsub("[dD]", "E", toks[13])))
-        csupn      <- suppressWarnings(as.numeric(gsub("[dD]", "E", toks[14])))
-        nlpsupn    <- suppressWarnings(as.numeric(gsub("[dD]", "E", toks[16])))
-        cpu_time   <- suppressWarnings(as.numeric(toks[3]))
-        iterations <- suppressWarnings(as.integer(toks[21]))
-        fcnt       <- suppressWarnings(as.integer(toks[25]))
+        f_best     <- as.numeric(gsub("[dD]", "E", toks[13]))
+        csupn      <- as.numeric(gsub("[dD]", "E", toks[14]))
+        nlpsupn    <- as.numeric(gsub("[dD]", "E", toks[16]))
+        cpu_time   <- as.numeric(toks[3])
+        iterations <- as.integer(toks[21])
+        fcnt       <- as.integer(toks[25])
       }
     }
   }
-
   if (is.na(f_best) || is.na(fcnt)) {
     interrupted_path <- file.path(mytests_dir, "alsolver-interrupted-tabline.txt")
     if (file.exists(interrupted_path)) {
@@ -62,54 +65,38 @@ evaluate_algencan <- function(problem_id, configuration) {
         num_cols <- length(toks)
         
         if (num_cols >= 26) {
-          f_best     <- suppressWarnings(as.numeric(gsub("[dD]", "E", toks[10])))
-          csupn      <- suppressWarnings(as.numeric(gsub("[dD]", "E", toks[11])))
-          nlpsupn    <- suppressWarnings(as.numeric(gsub("[dD]", "E", toks[13])))
-          iterations <- suppressWarnings(as.integer(toks[18]))
-          fcnt       <- suppressWarnings(as.integer(toks[22]))
+          f_best     <- as.numeric(gsub("[dD]", "E", toks[10]))
+          csupn      <- as.numeric(gsub("[dD]", "E", toks[11]))
+          nlpsupn    <- as.numeric(gsub("[dD]", "E", toks[13]))
+          iterations <- as.integer(toks[18])
+          fcnt       <- as.integer(toks[22])
           cpu_time   <- 30
         }
       }
     }
   }
   
-  # Métrica de costo C2 (Definition 4.2.4)
-  # eps_feas = 1e-8, f_bar = 1e12
+  # ----------------------------------------------------------------------
+  # 
+  # ----------------------------------------------------------------------
   if (csupn <= eps_feas) {
-    # Caso factible: round(10^8 * f(θ,I)) + fcnt/(fcnt+1)
     cost <- round(1e8 * f_best) + fcnt / (fcnt + 1)
   } else {
-    # Caso no factible: round(10^8 * f_bar * (c(θ,I)/eps_feas)) + fcnt/(fcnt+1)
     cost <- round(1e8 * f_bar * (csupn / eps_feas)) + fcnt / (fcnt + 1)
   }
   
   return(list(cost = cost, f_best = f_best, nlpsupn = nlpsupn, fcnt = fcnt, cpu_time = cpu_time, iterations = iterations, csupn = csupn))
 }
+
 # ----------------------------------------------------------------------
 # 
 # ----------------------------------------------------------------------
 runner <- function(experiment, scenario) {
   result <- evaluate_algencan(experiment$instance, experiment$configuration)
   
-  log_entry <- sprintf(
-    "Config #%-4d | Instance: %-12s | Cost: %.6e | f_best: %s | csupn: %s | nlpsupn: %s | iterations: %s | fcnt: %s | Time: %s | rhomult=%s, rhofrac=%s\n",
-    experiment$id.configuration,
-    experiment$instance,
-    result$cost,
-    ifelse(is.na(result$f_best), "NA", sprintf("%.8e", result$f_best)),
-    ifelse(is.na(result$csupn), "NA", sprintf("%.8e", result$csupn)),
-    ifelse(is.na(result$nlpsupn), "NA", sprintf("%.8e", result$nlpsupn)),
-    ifelse(is.na(result$iterations), "NA", as.character(result$iterations)),
-    ifelse(is.na(result$fcnt), "NA", as.character(result$fcnt)),
-    ifelse(is.na(result$cpu_time), "NA", sprintf("%.6f", result$cpu_time)),
-    as.character(experiment$configuration$rhomult),
-    as.character(experiment$configuration$rhofrac)
-  )
-  
-  cat(log_entry, file = "irace_evaluations.log", append = TRUE)
-  
   return(list(cost = result$cost))
 }
+
 # ----------------------------------------------------------------------
 # 
 # ----------------------------------------------------------------------
@@ -117,9 +104,7 @@ parameters <- readParameters(text = '
 rhomult  "" c (2, 3, 5, 10, 100)
 rhofrac  "" c (0.1, 0.5, 0.9)
 ')
-# ----------------------------------------------------------------------
-# 
-# ----------------------------------------------------------------------
+
 #trainInstances <- c("BURKEHAN", "ALSOTAME", "BT1", "EXTRASIM", "HIMMELP2", "HS10", "HS11", "HS12", "HS13", "HS21", "HS57", "HS6", "HS7", "HS88", "HS9", "HUBFIT", "LSQFIT", "MARATOS", "S316-322", "TAME", "TRY-B", "BT10", "FLT", "HIMMELP3", "HS14", "HS15", "HS16", "HS17", "HS18", "HS19", "HS22", "SIMPLLPA", "SNAKE", "SUPERSIM", "TWOBARS", "ZECEVIC2", "ZECEVIC3", "ZECEVIC4", "HIMMELP4", "HIMMELP5", "HS20", "HS24", "HS59", "SIMPLLPB", "HIMMELP6", "HS23", "PT", "HET-Z", "SIPOW1", " SIPOW1M", "SIPOW2", "SIPOW2M", "BT2", "HS26", "HS27", "HS28", "HS29", "HS30", "HS31", "HS35", "HS35I", "HS35MOD", "HS36", "HS60", "HS62", "HS64", "HS65", "HS89", "BT4", "BT5", "BYRDSPHR", "HS32", "HS33", "HS34", "HS37", "HS61", "HS63", "HS66", "KIWCRESC", "LOOTSMA", "MAKELA1", "MIFFLIN1", "MIFFLIN2", "POLAK1", "POLAK5", "SPIRAL", "STANCMIN", "WACHBIEG", "ZY2", "CB2", "CB3", "CHACONN1", "CHACONN2", "DEMYMALO", "GIGOMEZ1", "GIGOMEZ2", "GIGOMEZ3", "MAKELA2", "WOMFLET", "MINMAXRB")
 
 #trainInstances <- c(
@@ -133,25 +118,33 @@ rhofrac  "" c (0.1, 0.5, 0.9)
 #)
 trainInstances <- c("BURKEHAN", "HS13", "HS8", "TAME", "GIGOMEZ1", "HS37", "MIFFLIN2", "ALLINITC", "HS71", "BT13", "HS50", "MWRIGHT", "HS95", "HS103", "HS107", "PORTSNQP", "HS117", "MAKELA3", "ACOPP14", "CORE1", "LINSPANH", "SMBANK", "HYDROELS", "ZAMB2-11", "POLYGODD", "STEENBRC", "CHAIN", "CLEUVEN4", "CMPC10", "LEUVEN2", "MODEL", "LISWET9", "CMPC1", "JJTABEL3", "HIER163A", "POWELL20", "SAROMM", "A5NSDSDM", "GRIDNETC", "LUKVLE12", "DTOC5", "LUKVLI10", "NCVXQP9", "GASOIL", "LIPPERT1", "A0ESSNDL", "A0NNDNDL", "A5NNDNDL", "RDW2D52F", "BDRY2")
 
+#trainInstances <- c("BURKEHAN", "HS13", "HS8", "TAME", "GIGOMEZ1")
 testInstances <- trainInstances
 set.seed(123456)
 
+# ----------------------------------------------------------------------
+# 
+# ----------------------------------------------------------------------
 scenario <- list(
   targetRunner = runner,
   testInstances = trainInstances,
   instances = trainInstances,
-  maxExperiments = 800, 
+  maxExperiments = 1000, 
   logFile = "irace-algencan-results1.Rdata",
   debugLevel = 2,
   parallel = 1,
   deterministic = TRUE,
-  elitistNewInstances = 15,
+  elitistNewInstances = 10,
   minNbSurvival=4,
   testNbElites = 4,
-  firstTest = 20, 
+  firstTest = 30, 
+  parameters = parameters,
+  seed = 123456,
+  testIterationElites = 1,
   postselection = TRUE
+  #parameters = parameters
 )
 
 scenario <- checkScenario(scenario)
 
-irace.output <- irace::irace(scenario = scenario, parameters = parameters)
+irace.output <- irace::irace(scenario = scenario)
