@@ -1,25 +1,8 @@
 library(irace)
 
-# ============================================================================
-# INITIALIZATION: Clean previous execution logs and results
-# ============================================================================
-if (file.exists("irace_evaluations.log")) {
-  file.remove("irace_evaluations.log")
-}
-
-# Limpiar archivos de resultados previos en mytests_dir
-base <- Sys.getenv("ALGENCAN", "/home/andres/Experimet 4/algencan-4.0.0/algencan-4.0.0")
-mytests_dir <- file.path(base, "mytests")
-
+# ----------------------------------------------------------------------
 # 
-tablines_history <- file.path(mytests_dir, "tablines_history")
-if (dir.exists(tablines_history)) {
-  unlink(tablines_history, recursive = TRUE)
-}
-
-# ============================================================================
-# EVALUATION FUNCTION: F(θ,I) 
-# ============================================================================
+# ----------------------------------------------------------------------
 evaluate_algencan <- function(problem_id, configuration) {
   # Directorio base donde están las librerías y donde se copian los tablines
   base <- Sys.getenv("ALGENCAN", "/home/andres/Experimet 4/algencan-4.0.0/algencan-4.0.0")
@@ -48,26 +31,6 @@ evaluate_algencan <- function(problem_id, configuration) {
   csupn <- NA
   nlpsupn <- NA
   
-  # Parámetros de la métrica C2
-  eps_feas <- 1e-8
-  f_bar <- 1e12  # Cota superior para puntos no factibles
-  
-  # Formato del tabline.txt y alsolver-interrupted-tabline.txt:
-  # Pos 1-9: dimensiones del problema
-  # Pos 10: f_best, 11: csupn, 12: ssupn, 13: nlpsupn, 14: bdsvio
-  # Pos 15: xtype, 16: max|x|, 17: max|lambda|
-  # Pos 18: outer iterations, 19: inner iterations
-  # Pos 20: nwcalls, 21: nwtotit
-  # Pos 22-26: counters (evalf, evalg, evalc, evalj, evalhl)
-
-  # tabline.txt tiene 29 columnas (incluye istop, ierr, cpu_time al inicio):
-  # Pos 1: istop, 2: ierr, 3: cpu_time
-  # Pos 4-12: dimensiones del problema
-  # Pos 13: f_best, 14: csupn, 15: ssupn, 16: nlpsupn, 17: bdsvio
-  # Pos 18: xtype, 19: max|x|, 20: max|lambda|
-  # Pos 21: outer iterations, 22: inner iterations
-  # Pos 23: nwcalls, 24: nwtotit
-  # Pos 25-29: counters (evalf, evalg, evalc, evalj, evalhl)
 
   tabline_path <- file.path(mytests_dir, "tabline.txt")
   
@@ -88,15 +51,6 @@ evaluate_algencan <- function(problem_id, configuration) {
       }
     }
   }
-  
-  # SOLO si NO se obtuvo resultado del tabline normal, buscar en interrupted
-  # alsolver-interrupted-tabline.txt tiene 26 columnas (NO incluye istop, ierr, cpu_time):
-  # Pos 1-9: dimensiones del problema
-  # Pos 10: f_best, 11: csupn, 12: ssupn, 13: nlpsupn, 14: bdsvio
-  # Pos 15: xtype, 16: max|x|, 17: max|lambda|
-  # Pos 18: outer iterations, 19: inner iterations
-  # Pos 20: nwcalls, 21: nwtotit
-  # Pos 22-26: counters (evalf, evalg, evalc, evalj, evalhl)
 
   if (is.na(f_best) || is.na(fcnt)) {
     interrupted_path <- file.path(mytests_dir, "alsolver-interrupted-tabline.txt")
@@ -131,7 +85,9 @@ evaluate_algencan <- function(problem_id, configuration) {
   
   return(list(cost = cost, f_best = f_best, nlpsupn = nlpsupn, fcnt = fcnt, cpu_time = cpu_time, iterations = iterations, csupn = csupn))
 }
-
+# ----------------------------------------------------------------------
+# 
+# ----------------------------------------------------------------------
 runner <- function(experiment, scenario) {
   result <- evaluate_algencan(experiment$instance, experiment$configuration)
   
@@ -154,12 +110,16 @@ runner <- function(experiment, scenario) {
   
   return(list(cost = result$cost))
 }
-
+# ----------------------------------------------------------------------
+# 
+# ----------------------------------------------------------------------
 parameters <- readParameters(text = '
 rhomult  "" c (2, 3, 5, 10, 100)
 rhofrac  "" c (0.1, 0.5, 0.9)
 ')
-
+# ----------------------------------------------------------------------
+# 
+# ----------------------------------------------------------------------
 #trainInstances <- c("BURKEHAN", "ALSOTAME", "BT1", "EXTRASIM", "HIMMELP2", "HS10", "HS11", "HS12", "HS13", "HS21", "HS57", "HS6", "HS7", "HS88", "HS9", "HUBFIT", "LSQFIT", "MARATOS", "S316-322", "TAME", "TRY-B", "BT10", "FLT", "HIMMELP3", "HS14", "HS15", "HS16", "HS17", "HS18", "HS19", "HS22", "SIMPLLPA", "SNAKE", "SUPERSIM", "TWOBARS", "ZECEVIC2", "ZECEVIC3", "ZECEVIC4", "HIMMELP4", "HIMMELP5", "HS20", "HS24", "HS59", "SIMPLLPB", "HIMMELP6", "HS23", "PT", "HET-Z", "SIPOW1", " SIPOW1M", "SIPOW2", "SIPOW2M", "BT2", "HS26", "HS27", "HS28", "HS29", "HS30", "HS31", "HS35", "HS35I", "HS35MOD", "HS36", "HS60", "HS62", "HS64", "HS65", "HS89", "BT4", "BT5", "BYRDSPHR", "HS32", "HS33", "HS34", "HS37", "HS61", "HS63", "HS66", "KIWCRESC", "LOOTSMA", "MAKELA1", "MIFFLIN1", "MIFFLIN2", "POLAK1", "POLAK5", "SPIRAL", "STANCMIN", "WACHBIEG", "ZY2", "CB2", "CB3", "CHACONN1", "CHACONN2", "DEMYMALO", "GIGOMEZ1", "GIGOMEZ2", "GIGOMEZ3", "MAKELA2", "WOMFLET", "MINMAXRB")
 
 #trainInstances <- c(
@@ -195,20 +155,3 @@ scenario <- list(
 scenario <- checkScenario(scenario)
 
 irace.output <- irace::irace(scenario = scenario, parameters = parameters)
-
-# Testing
-if (file.exists("irace-algencan-results1.Rdata")) {
-  load("irace-algencan-results1.Rdata")
-  if (exists("iraceResults")) {
-    if (!is.null(iraceResults$testing)) {
-      print(iraceResults$testing)
-    } else {
-      testResults <- testing_fromlog(
-        logFile = "irace-algencan-results1.Rdata",
-        testNbElites = scenario$testNbElites,
-        testIterationElites = scenario$testIterationElites
-      )
-      print(testResults)
-    }
-  }
-}
