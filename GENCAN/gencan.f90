@@ -74,7 +74,12 @@ contains
   
   ! *****************************************************************
   ! *****************************************************************
-
+  
+  ! *****************************************************************
+  ! The parameters (defined in the Dissertation) that were previously 
+  !fixed have been made tunable  and are now passed as arguments to 
+  !the GENCAN subroutine genunc().
+  ! *****************************************************************
   subroutine genunc(evalf,evalg,evalh,hnnzmax,hfixstr,n,x,f,g,gsupn, &
        ftarget,eps,maxit,extallowed,nfnoprogrmax,beta,eta,sgmmult,maxcountg, &
        iter,ierr,istop,evalstp,tabline,pdata)
@@ -582,7 +587,12 @@ contains
     go to 100
   
   end subroutine genuncb
-  
+
+  ! *****************************************************************
+  ! *****************************************************************
+  ! The parameters (defined in the Dissertation) that were previously 
+  !fixed have been made tunable  and are now passed as arguments to 
+  !the GENCAN subroutine gencan().
   ! *****************************************************************
   ! *****************************************************************
 
@@ -631,6 +641,11 @@ contains
   end subroutine gencan
 
   ! *****************************************************************
+  ! *****************************************************************
+
+  
+  ! *****************************************************************
+  !Here it is defined as parameter
   ! *****************************************************************
 
   subroutine gencanb(evalf,evalg,evalh,hfixstr,n,x,lind,lbnd,uind,ubnd, &
