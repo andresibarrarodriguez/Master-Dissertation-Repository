@@ -1,13 +1,17 @@
 library(irace)
 # ----------------------------------------------------------------------
-#
+# Definition of the reference values function according to the 
+# More–Garbow–Hillstrom paper, for the functional values that will 
+# be considered in the cost measure.
 # ----------------------------------------------------------------------
 
 f_ref <- c(0, 0, 1.127933E-8, 0, 0, 0, 2.28767E-03, 2.24997E-05, 9.376293E-06, 0.00,
            85822.2, 0, 0, 0, 0, 0, 0, 0.003516874)
 f_tol <- 1e-8
 # ----------------------------------------------------------------------
-#
+# Definition of the evaluation function. It sets the path to the
+# executable for running the internal algorithm (GENCAN), selects
+# an internal optimization method, and specifies the problem instance.
 # ----------------------------------------------------------------------
 
 evaluate_gencan <- function(problem_id, configuration) {
@@ -40,7 +44,9 @@ evaluate_gencan <- function(problem_id, configuration) {
     fcnt <- as.numeric(fcnt_match)
   }
   
+  
   # ----------------------------------------------------------------------
+  #Definition of the Cost Measure:         
   
   ref_value <- f_ref[pid]
   threshold <- ref_value + f_tol * max(1, abs(ref_value))
@@ -56,26 +62,30 @@ evaluate_gencan <- function(problem_id, configuration) {
 }
 
 # ----------------------------------------------------------------------
-#
+# Definition of the parameter space X, from which configurations will be 
+# sampled.
 # ----------------------------------------------------------------------
 parameters <- readParameters(text = '
 method "" c (newton, tn, tr)
 ')
 # ----------------------------------------------------------------------
-#
+# Definition of the Runner function, which is responsible for executing
+# the internal algorithm within the Irace Scenario.
 # ----------------------------------------------------------------------
 runner <- function(experiment, scenario) {
   evaluate_gencan(experiment$instance, experiment$configuration)
 }
 
 # ----------------------------------------------------------------------
-#
+# Here we define the problem instances considered in the training phase,
+# taken from the More–Garbow–Hillstrom problem set.
 # ----------------------------------------------------------------------
 trainInstances <- as.character(1:18)
-testInstances <- as.character(1:18)
+#testInstances <- as.character(1:18)
 
 # ----------------------------------------------------------------------
-#
+# Here we define the Irace Scenario, which specifies the conditions
+# under which the internal algorithm (GENCAN) will be executed. 
 # ----------------------------------------------------------------------
 scenario <- list(
   targetRunner = runner,
