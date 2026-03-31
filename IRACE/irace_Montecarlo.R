@@ -1,5 +1,9 @@
 library(irace)
 
+# ----------------------------------------------------------------------
+# Definition of the function that returns the area
+# according to the size of the box.
+# ----------------------------------------------------------------------
 get_area <- function(box_type) {
   if (box_type == 1) return(4)   # When T=2,
   if (box_type == 2) return(36)   # When T=6,
@@ -19,7 +23,10 @@ get_hypervolume <- function(box_type) {
 }
 
 # ----------------------------------------------------------------------
-#
+# Definition of the evaluation function. It sets the path to the
+# executable, defines the instances used for training, and selects
+# the appropriate measure (area, volume, or hypervolume) according
+# to the problem dimension.
 # ----------------------------------------------------------------------
 evaluate_montecarlo <- function(problem_id, configuration) {
   trash <- tempfile()
@@ -43,7 +50,9 @@ evaluate_montecarlo <- function(problem_id, configuration) {
   }
   
   # ----------------------------------------------------------------------
-  #
+  # Definition of the number of evaluations based on the point density
+  # and the selected measure (area, volume, or hypervolume).
+  # It also defines how the cost value is obtained.
   # ----------------------------------------------------------------------
   numeval <- as.integer(densidad * medida)
   output <- system2(
@@ -54,20 +63,19 @@ evaluate_montecarlo <- function(problem_id, configuration) {
   
   fbest_line <- output[1]
   cost <- as.numeric(sub("fbest =\\s*", "", fbest_line))
-  #cat(sprintf("Resultado: instancia=%s, numeval=%s, box_type=%s, cost=%f\n",
-  #           problem_id, numeval, box_type, cost),
-  #   file = "runner.log", append = TRUE)
   return(list(cost = cost))
 }
 # ----------------------------------------------------------------------
-#
+# Definition of the parameter space X, from which configurations will be 
+# sampled.
 # ----------------------------------------------------------------------
 parameters <- readParameters(text = '
 densidad "" c (1, 10, 100, 1000)
 box_type "" c (1,2,3)
 ')
 # ----------------------------------------------------------------------
-#
+# Definition of the runner function, which is responsible for executing
+# the internal algorithm within the irace scenario.
 # ----------------------------------------------------------------------
 runner <- function(experiment, scenario) {
   C <- experiment$configuration  
@@ -75,12 +83,14 @@ runner <- function(experiment, scenario) {
   return(result)
 }
 # ----------------------------------------------------------------------
-#
+# Here we define the problem instances considered in the training phase,
+# taken from the More–Garbow–Hillstrom problem set.
 # ----------------------------------------------------------------------
 trainInstances <- as.character(c(1, 3, 4,  5, 8, 9,10, 11, 12, 17, 16))
-testInstances  <- as.character(c(1, 3, 4,  5, 8, 9,10, 11, 12, 17, 16))
+#testInstances  <- as.character(c(1, 3, 4,  5, 8, 9,10, 11, 12, 17, 16))
 # ----------------------------------------------------------------------
-#
+# Here we define the irace scenario, which specifies the conditions
+# under which the internal algorithm will be executed. 
 # ----------------------------------------------------------------------
 scenario <- list(
   targetRunner = runner,
@@ -90,7 +100,6 @@ scenario <- list(
   logFile = "irace-results.Rdata",  
   parameters = parameters,
   debugLevel = 0,
-  parallel = 4,
   deterministic = TRUE,
   testNbElites = 1, 
   elitist = 1,       
