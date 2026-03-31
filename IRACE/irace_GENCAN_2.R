@@ -1,7 +1,9 @@
 library(irace)
 
 # ----------------------------------------------------------------------
-# 
+# Definition of the evaluation function. It sets the path to the
+# executable for running the internal algorithm (GENCAN), selects
+# an internal optimization method, and specifies the problem instance.
 # ----------------------------------------------------------------------
 evaluate_gencan <- function(problem_id, configuration) {
   trash <- tempfile()
@@ -30,6 +32,9 @@ evaluate_gencan <- function(problem_id, configuration) {
     fcnt_match <- regmatches(last_iter_line, regexpr("\\d+\\s*$", last_iter_line))
     fcnt <- as.numeric(fcnt_match)
   } 
+  # ----------------------------------------------------------------------
+  #Defintion of the Cost-Measure: 
+  # ----------------------------------------------------------------------
 
   fbest_int <- round(fbest * 1e8)
   cost <- fbest_int + fcnt / (fcnt + 1)
@@ -37,13 +42,15 @@ evaluate_gencan <- function(problem_id, configuration) {
   return(list(cost = cost))
 }
 # ----------------------------------------------------------------------
-# 
+# Definition of the parameter space X, from which configurations will be 
+# sampled.
 # ----------------------------------------------------------------------
 parameters <- readParameters(text = '
 method "" c (newton, tn, tr)
 ')
 # ----------------------------------------------------------------------
-# 
+# Definition of the Runner function, which is responsible for executing
+# the internal algorithm within the Irace Scenario.
 # ----------------------------------------------------------------------
 
 runner <- function(experiment, scenario) {
@@ -51,14 +58,16 @@ runner <- function(experiment, scenario) {
 }
 
 # ----------------------------------------------------------------------
-# 
+# Here we define the problem instances considered in the training phase,
+# taken from the More–Garbow–Hillstrom problem set.
 # ----------------------------------------------------------------------
 
 trainInstances <- as.character(1:18)
-testInstances <- as.character(1:18)
+#testInstances <- as.character(1:18)
 
 # ----------------------------------------------------------------------
-# 
+# Here we define the Irace Scenario, which specifies the conditions
+# under which the internal algorithm (GENCAN) will be executed. 
 # ----------------------------------------------------------------------
 
 scenario <- list(
@@ -80,8 +89,5 @@ scenario <- list(
   postselection = FALSE 
 )
 
-# ----------------------------------------------------------------------
-# 
-# ----------------------------------------------------------------------
 set.seed(123456)
 irace.output <- irace::irace(scenario)
