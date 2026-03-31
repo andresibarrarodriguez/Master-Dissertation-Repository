@@ -131,7 +131,7 @@ extallowed   "" c (T, F)
 ')
 
 # ----------------------------------------------------------------------
-# Here it is defines the problem instances considered in the training phase,
+# Here it is defined the problem instances considered in the training phase,
 # taken from the CUTEst benchmark, including only unconstrained and 
 # bound-constrained problems.
 # ----------------------------------------------------------------------
