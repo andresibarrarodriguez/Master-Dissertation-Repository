@@ -1,7 +1,10 @@
 library(irace)
 
 # ----------------------------------------------------------------------
-# 
+# Definition of the evaluation function. It sets the path to the
+# executable for running the algorithm (ALGENCAN), using a
+# configuration array sampled from the parameter space.
+# The version used in this experiment was ALGENCAN included in ALGENCAN 4.0.0.
 # ----------------------------------------------------------------------
 evaluate_algencan <- function(problem_id, configuration) {
   base <- Sys.getenv("ALGENCAN", "/home/andres/Experimet_4/algencan-4.0.0/algencan-4.0.0")
@@ -36,7 +39,11 @@ evaluate_algencan <- function(problem_id, configuration) {
   tabline_path <- file.path(mytests_dir, "tabline.txt")
   
   # ----------------------------------------------------------------------
-  # 
+  #  Extracts information from the tabline or interrupted tabline files,
+  # including functional values, function evaluations (fcnt), number of 
+  # iterations, and norm of feasibility and Lagrangian norm. These values are then 
+  # used to compute the cost measure and build the comparative tables 
+  # presented in the Dissertation.
   # ----------------------------------------------------------------------
   if (file.exists(tabline_path)) {
     tl <- readLines(tabline_path, warn = FALSE)
@@ -77,7 +84,7 @@ evaluate_algencan <- function(problem_id, configuration) {
   }
   
   # ----------------------------------------------------------------------
-  # 
+  # Defintion of the Cost-Measure: 
   # ----------------------------------------------------------------------
   if (csupn <= eps_feas) {
     cost <- round(1e8 * f_best) + fcnt / (fcnt + 1)
@@ -89,7 +96,8 @@ evaluate_algencan <- function(problem_id, configuration) {
 }
 
 # ----------------------------------------------------------------------
-# 
+# Definition of the Runner function, which is responsible for executing
+# the internal algorithm within the Irace Scenario.
 # ----------------------------------------------------------------------
 runner <- function(experiment, scenario) {
   result <- evaluate_algencan(experiment$instance, experiment$configuration)
@@ -98,13 +106,19 @@ runner <- function(experiment, scenario) {
 }
 
 # ----------------------------------------------------------------------
-# 
+# Definition of the parameter space X, from which configurations will be 
+# sampled.
 # ----------------------------------------------------------------------
 parameters <- readParameters(text = '
 rhomult  "" c (2, 3, 5, 10, 100)
 rhofrac  "" c (0.1, 0.5, 0.9)
 ')
 
+# ----------------------------------------------------------------------
+# Defines the problem instances considered in the training phase,
+# taken from the CUTEst benchmark, including problems with general 
+# constraints of the form h(x) = 0, g(x) ≤ 0, with x ∈ Ω.
+# ----------------------------------------------------------------------
 #trainInstances <- c("BURKEHAN", "ALSOTAME", "BT1", "EXTRASIM", "HIMMELP2", "HS10", "HS11", "HS12", "HS13", "HS21", "HS57", "HS6", "HS7", "HS88", "HS9", "HUBFIT", "LSQFIT", "MARATOS", "S316-322", "TAME", "TRY-B", "BT10", "FLT", "HIMMELP3", "HS14", "HS15", "HS16", "HS17", "HS18", "HS19", "HS22", "SIMPLLPA", "SNAKE", "SUPERSIM", "TWOBARS", "ZECEVIC2", "ZECEVIC3", "ZECEVIC4", "HIMMELP4", "HIMMELP5", "HS20", "HS24", "HS59", "SIMPLLPB", "HIMMELP6", "HS23", "PT", "HET-Z", "SIPOW1", " SIPOW1M", "SIPOW2", "SIPOW2M", "BT2", "HS26", "HS27", "HS28", "HS29", "HS30", "HS31", "HS35", "HS35I", "HS35MOD", "HS36", "HS60", "HS62", "HS64", "HS65", "HS89", "BT4", "BT5", "BYRDSPHR", "HS32", "HS33", "HS34", "HS37", "HS61", "HS63", "HS66", "KIWCRESC", "LOOTSMA", "MAKELA1", "MIFFLIN1", "MIFFLIN2", "POLAK1", "POLAK5", "SPIRAL", "STANCMIN", "WACHBIEG", "ZY2", "CB2", "CB3", "CHACONN1", "CHACONN2", "DEMYMALO", "GIGOMEZ1", "GIGOMEZ2", "GIGOMEZ3", "MAKELA2", "WOMFLET", "MINMAXRB")
 
 #trainInstances <- c(
@@ -123,7 +137,9 @@ testInstances <- trainInstances
 set.seed(123456)
 
 # ----------------------------------------------------------------------
-# 
+# Here we define the Irace Scenario, which specifies the conditions
+# under which Algencan with using internal algorithm:(Newton with Line-Search) 
+#will be executed. 
 # ----------------------------------------------------------------------
 scenario <- list(
   targetRunner = runner,
