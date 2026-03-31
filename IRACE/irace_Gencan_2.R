@@ -4,7 +4,10 @@ base <- Sys.getenv("ALGENCAN", "/home/andres/CODIGOS_DISERTACION/Experiment 3/al
 mytests_dir <- file.path(base, "mytests")
 
 # ----------------------------------------------------------------------
-# 
+# Definition of the evaluation function. It sets the path to the
+# executable for running the internal algorithm (GENCAN), using a
+# configuration array sampled from the parameter space.
+# The version used in this experiment was GENCAN included in ALGENCAN 4.0.0.
 # ----------------------------------------------------------------------
 evaluate_gencan <- function(problem_id, configuration) {
   base <- Sys.getenv("ALGENCAN", "/home/andres/CODIGOS_DISERTACION/Experiment 3/algencan-4.0.0")
@@ -47,7 +50,11 @@ evaluate_gencan <- function(problem_id, configuration) {
   iterations <- NA
   
   # ----------------------------------------------------------------------
-  # 
+  # Extracts information from the tabline or interrupted tabline files,
+  # including functional values, function evaluations (fcnt), number of 
+  # iterations, and norm of the projected gradient. These values are then 
+  # used to compute the cost measure and build the comparative tables 
+  # presented in the Dissertation.
   # ----------------------------------------------------------------------
   tabline_path <- file.path(mytests_dir, "tabline.txt")
   
@@ -79,10 +86,10 @@ evaluate_gencan <- function(problem_id, configuration) {
         num_cols <- length(toks)
         
         if (num_cols >= 9) {
-          f_best <- suppressWarnings(as.numeric(gsub("[dD]", "E", toks[4])))
-          grad_norm <- suppressWarnings(as.numeric(gsub("[dD]", "E", toks[5])))  
-          iterations <- suppressWarnings(as.integer(toks[6]))  
-          fcnt <- suppressWarnings(as.integer(toks[7]))
+          f_best <- as.numeric(gsub("[dD]", "E", toks[4]))
+          grad_norm <- as.numeric(gsub("[dD]", "E", toks[5]))  
+          iterations <- as.integer(toks[6])  
+          fcnt <- as.integer(toks[7]))
           cpu_time <- 30  
         }
       }
@@ -92,18 +99,27 @@ evaluate_gencan <- function(problem_id, configuration) {
  
 
   # ----------------------------------------------------------------------
-  # 
+  # Defintion of the Cost-Measure: 
   # ----------------------------------------------------------------------
   cost <- round(1e8 * f_best) + fcnt / (fcnt + 1)
   
   return(list(cost = cost, f_best = f_best, grad_norm = grad_norm, fcnt = fcnt, cpu_time = cpu_time, iterations = iterations))
 }
 
+
+# ----------------------------------------------------------------------
+# Definition of the Runner function, which is responsible for executing
+# the internal algorithm within the Irace Scenario.
+# ----------------------------------------------------------------------
 runner <- function(experiment, scenario) {
   result <- evaluate_gencan(experiment$instance, experiment$configuration)  
   return(list(cost = result$cost))
 }
 
+# ----------------------------------------------------------------------
+# Definition of the parameter space X, from which configurations will be 
+# sampled.
+# ----------------------------------------------------------------------
 parameters <- readParameters(text = '
 beta         "" c (0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9)                | extallowed == "T"
 eta          "" c (1.0e1, 1.0e2, 1.0e3, 1.0e4, 1.0e5, 1.0e6, 1.0e7, 1.0e8, 1.0e9)
@@ -113,6 +129,13 @@ nfnoprogrmax "" c (3, 5, 10, 15, 20, 25, 30)
 mc234        "" c (100-500-1000, 100-500-5000, 100-500-10000, 100-1000-5000, 100-1000-10000, 100-5000-10000, 500-1000-5000, 500-1000-10000, 500-5000-10000, 1000-5000-10000)
 extallowed   "" c (T, F)
 ')
+
+# ----------------------------------------------------------------------
+# Here it is defines the problem instances considered in the training phase,
+# taken from the CUTEst benchmark, including only unconstrained and 
+# bound-constrained problems.
+# ----------------------------------------------------------------------
+
 trainInstances <- c("BEALE", "AKIVA", "CUBE", "BOX2", "BRANIN")
 
 
@@ -133,6 +156,12 @@ trainInstances <- c("BEALE", "AKIVA", "CUBE", "BOX2", "BRANIN")
 #trainInstances <- c("BQP1VAR", "BEALE", "BROWNBS", "CUBE", "DENSCHNB", "EGGCRATE", "EXP2", "GBRAINLS", "HIMMELBCLS", "HS1", "HS4", "JUDGE", "LOGROS", "MISRA1ALS", "POWELLBSLS", "PRICE4", "S308", "SISSER", "WAYSEA1B", "BARD", "CHWIRUT1LS", "DGOSPEC", "GAUSSIAN", "HATFLDE", "HELIX", "LSC1LS", "MGH10SLS", "PFIT3LS", "SSI", "ALLINIT", "DEVGLA1B", "HIMMELBF", "MGH09LS", "PALMER2B", "PALMER4B", "PSPDOC", "DEVGLA2", "LEVYMONT8", "QINGB", "FBRAIN3LS", "LANCZOS2LS", "PALMER3A", "PALMER7A", "CERI651CLS", "PALMER1D", "GAUSS2LS", "MAXLIKA", "PALMER2C", "PALMER4C", "PALMER6C", "PALMER8C", "VESUVIOLS", "COOLHANSLS", "DIAGIQB", "STRATEC", "TRIGON1", "OSBORNEB", "BLEACHNG", "HATFLDC", "METHANB8LS", "CHNROSNB", "TOINTGOR", "BA-L1LS", "MINSURF", "DMN37142LS", "DIAMON3DLS", "HYDC20LS", "LUKSAN15LS", "LUKSAN22LS", "SPIN2LS", "ARGLINA", "BROWNAL", "LRW1A", "GENROSEB", "QR3DLS", "DIAGNQB", "DIAGPQE", "FLETCHCR", "POWELLBC", "EXPLIN", "WALL10", "EDENSCH", "EIGENALS", "DIXMAANB", "DIXMAANF", "DIXMAANJ", "DIXMAANN", "CHAINWOO", "DRCAV3LQ", "BDEXP", "BROYDN7D", "CRAGGLVY", "FLETBV3M", "FREUROTH", "MCCORMCK", "NONCVXUN", "PENTDI", "QUDLIN", "SINQUAD", "SSBRYBND", "TRIDIA", "NCB20", "ODC", "TORSION1", "TORSION5", "TORSIONC", "FMINSRF2", "WALL20", "CURLY10", "DIXON3DQ", "NCVXBQP1", "OBSTCLAL", "POWER", "SPARSQUR", "BA-L49LS", "BA-L21LS", "DEGDIAG", "YATP1CLS")
 testInstances <- trainInstances
 set.seed(123456)
+
+
+# ----------------------------------------------------------------------
+# Here we define the Irace Scenario, which specifies the conditions
+# under which the internal algorithm:(Newton with Line-Search) will be executed. 
+# ----------------------------------------------------------------------
 
 scenario <- list(
   targetRunner = runner,
