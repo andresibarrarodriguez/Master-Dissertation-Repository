@@ -1,6 +1,6 @@
 \begin{table}[H]
 \centering
-\caption{Comparación entre dos configuraciones elite calculadas por irace y la configuración predeterminada de Algencan.}
+\caption{Comparison between two elite configurations found by Irace and the Default configuration of Algencan.}
 \label{tab:comparison}
 \resizebox{\textwidth}{!}{
 \begin{tabular}{|l|c|c|c|c|c|c|c||c|c|c|c|c|c|c||c|c|c|c|c|c|c|}
