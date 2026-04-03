@@ -38,15 +38,13 @@ To run the script, execute:
 **EXPERIMENT 2: I-RACE for tuning GENCAN: I**
 ---------------------------------------------------------
 
-According to the methodology proposed in the dissertation, the objective of this experiment is to tune the internal optimization method implemented within Phase $\mathscr{F}_{I}$ by GENCAN in version 3.0.0 of ALGENCAN. In this version, the HSL library, specifically MA57, is used to solve the linear systems.
+According to the methodology proposed in the dissertation, the objective of this experiment is to tune the internal optimization method implemented within Phase $\mathscr{F}_{I}$ by GENCAN in version 3.1.1 of ALGENCAN. In this version, the HSL library, specifically MA57, is used to solve the linear systems.
 
-De acuerdo con lo propuesto en la disertacion, el objetivo de este experimento es el ajuste del metodo de optimizacion interno dentro de la face, implementeado por GENCAN, en la version de ALGENCAN 3.0.0, esta contempla. En este usamos la libreria HSL, la MA-57, para resolver sistemas lineales.
+1. Newton's method with trust-region globalization;
+2. Newton's method with line search;
+3. Truncated Newton method.
 
-1. Newton con globalizacion en regiones de confianza;
-2. Newton con busqueda lineal;
-3. Newton Truncado.
-
-para la ejecucion de este experimento sera necesario los siguientes archivos:
+The following files are required for the execution of this experiment:
 
 1. subroutines_GENCAN.f
 2. conf_GENCAN.f90
@@ -55,7 +53,7 @@ para la ejecucion de este experimento sera necesario los siguientes archivos:
 5.1. irace_GENCAN.R
 5.2. irace_GENCAN_2.R
 
-(**Obs**: (5.1) y (5.2) la diferencia principal entre estos Scripts, es la definicion de la medida de costo C1 y C2.)
+(**Obs**: (5.1) y (5.2) the main difference between these scripts lies in the definition of the cost measure. $\mathcal{C}_1$ y $\mathcal{C}_2$.)
 
 (*) Para este compilamos de la forma: gfortran -c src_unc.f
 gfortran -c src_hes.f
