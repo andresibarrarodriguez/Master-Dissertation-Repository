@@ -1,0 +1,96 @@
+#!/bin/bash
+
+export ALGENCAN="$HOME/Experimet_4/algencan-4.0.0/algencan-4.0.0"
+ORIGINAL_DIR="$PWD"
+
+# Compilar librerías UNA SOLA VEZ
+COMPILE_DONE="$ORIGINAL_DIR/.compile.done"
+
+if [ ! -f "$COMPILE_DONE" ]; then
+  cd "$ORIGINAL_DIR"
+  
+  gfortran -c -O3 "$ALGENCAN/sources/blas/dgemm.f"
+  gfortran -c -O3 "$ALGENCAN/sources/blas/dgemv.f"
+  gfortran -c -O3 "$ALGENCAN/sources/blas/dtpmv.f"
+  gfortran -c -O3 "$ALGENCAN/sources/blas/dtpsv.f"
+  gfortran -c -O3 "$ALGENCAN/sources/blas/idamax.f"
+  gfortran -c -O3 "$ALGENCAN/sources/blas/lsame.f"
+  gfortran -c -O3 "$ALGENCAN/sources/blas/xerbla.f"
+  ar rcs libblas.a dgemm.o dgemv.o dtpmv.o dtpsv.o idamax.o lsame.o xerbla.o
+
+  gfortran -c -O3 "$ALGENCAN/sources/hsl/fakemetis.f"
+  gfortran -c -O3 "$ALGENCAN/sources/hsl/ddeps.f"
+  gfortran -c -O3 "$ALGENCAN/sources/hsl/ddeps90.f90"
+  gfortran -c -O3 "$ALGENCAN/sources/hsl/hsl_ma57d.f90"
+  ar rcs libhsl.a fakemetis.o ddeps.o ddeps90.o hsl_ma57d.o
+
+  gfortran -c -O3 -Wall "$ALGENCAN/sources/algencan/lss.f90"
+  gfortran -c -O3 -Wall "$ALGENCAN/sources/algencan/gencan.f90"
+  gfortran -c -O3 -Wall "$ALGENCAN/sources/algencan/memev.f90"
+  gfortran -c -O3 -Wall "$ALGENCAN/sources/algencan/feasgencan.f90"
+  gfortran -c -O3 -Wall "$ALGENCAN/sources/algencan/newtkkt.f90"
+  gfortran -c -O3 -Wall "$ALGENCAN/sources/algencan/algencan.f90"
+  ar rcs libalgencan.a lss.o gencan.o memev.o feasgencan.o newtkkt.o algencan.o
+
+  gfortran -c -O3 -Wall "$ALGENCAN/sources/interfaces/cutest/algencanma-forcutest.f90"
+
+  touch "$COMPILE_DONE"
+fi
+
+export tlim=30
+
+export MASTSIF=/home/andres/algencan-3.1.1/sif
+export ARCHDEFS=/home/andres/algencan-3.1.1/archdefs
+export SIFDECODE=/home/andres/algencan-3.1.1/sifdecode
+export CUTEST=/home/andres/algencan-3.1.1/cutest
+export MYARCH=pc64.lnx.gfo
+
+for i in $*
+do
+  # Crear directorio temporal
+  WORK_DIR=$(mktemp -d)
+  cd "$WORK_DIR"
+
+  $SIFDECODE/bin/sifdecoder $i.SIF
+
+  gfortran -c -O3 ELFUN.f $( [ -f EXTER.f ] && echo EXTER.f ) GROUP.f RANGE.f
+
+  gfortran ELFUN.o $( [ -f EXTER.o ] && echo EXTER.o ) GROUP.o RANGE.o "$ORIGINAL_DIR/algencanma-forcutest.o" \
+            -L"$ORIGINAL_DIR" -lalgencan -lhsl -lblas \
+            -L"$CUTEST/objects/$MYARCH/double" -lcutest -o algencanma-forcutest
+
+  # Limpiar archivos de ejecuciones anteriores en el directorio original
+  rm -f "$ORIGINAL_DIR/tabline.txt" "$ORIGINAL_DIR/alsolver-interrupted-tabline.txt"
+
+  ulimit -St 30
+  stdbuf -oL -eL timeout 30 ./algencanma-forcutest "$RHOMULT" "$RHOFRAC" 2>&1 | tee algencan-$i.log || true
+  cp algencan-$i.log "$ORIGINAL_DIR/algencan-${i}_$(date +%Y%m%d%H%M%S).log"
+  ulimit -St unlimited  
+
+  # Copiar tablines al directorio original
+  if [ -e tabline.txt ]; then
+    cp tabline.txt "$ORIGINAL_DIR/tabline.txt"
+  fi
+  if [ -e alsolver-interrupted-tabline.txt ]; then
+    cp alsolver-interrupted-tabline.txt "$ORIGINAL_DIR/alsolver-interrupted-tabline.txt"
+  fi
+
+  # Generar tabla en el directorio original
+  cd "$ORIGINAL_DIR"
+  
+  if [ -e tabline.txt ]; then
+    printf "Algencan   %10s" $i >> table-nlp.txt
+    cat tabline.txt >> table-nlp.txt
+  else
+    if [ -e alsolver-interrupted-tabline.txt ]; then
+      printf "Algencan   %10s %2d %3d %11.6f" $i 99 0 $tlim >> table-nlp.txt
+      cat alsolver-interrupted-tabline.txt >> table-nlp.txt
+    else
+      printf "Algencan   %10s no information at all\n" $i >> table-nlp.txt
+    fi
+  fi
+
+  # Limpiar directorio temporal
+  rm -rf "$WORK_DIR"
+
+done
