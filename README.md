@@ -20,15 +20,16 @@ According to what is proposed in the dissertation, the following files are requi
 2.src_unc.f
 3.irace_Montecarlo.R
 
-(*) Para correr el programa de busqueda de Monte_Carlo.f90, usamos el archivo src_unc.f, que contiene las subrutinas OBJ.f90 para la evaluacion de funciones. Para usarlo por tanto compilamos: gfortran -O2 -o montecarlo_search Montecarlo_Search.f90 src_unc.f y corremos como: 
+\begin{itemize}
+\item Para correr el programa de busqueda de Monte_Carlo.f90, usamos el archivo src_unc.f, que contiene las subrutinas OBJ.f90 para la evaluacion de funciones. Para usarlo por tanto compilamos: gfortran -O2 -o montecarlo_search Montecarlo_Search.f90 src_unc.f y corremos como: 
 ./montecarlo_search nprob boxtype itrialmax
 
-(**) Para correr Irace y encontrar una configuracion de parametros \theta=(\rho, \Omega), usaremos el archivo, irace_Montecarlo.R y en la linea,  exe <- "/home/user/Documentos/montecarlo_search", usamos la ruta donde se guarde el programa de evaluacion de Montecarlo_Seach.f90. 
+\item Para correr Irace y encontrar una configuracion de parametros \theta=(\rho, \Omega), usaremos el archivo, irace_Montecarlo.R y en la linea,  exe <- "/home/user/Documentos/montecarlo_search", usamos la ruta donde se guarde el programa de evaluacion de Montecarlo_Seach.f90. 
 
 
 Para correr el Script entonces ejecutaremos:
 
-(***) Rscript irace_Montecarlo.R.
+\item Rscript irace_Montecarlo.R.
 
 
 ---------------------------------------------------------
