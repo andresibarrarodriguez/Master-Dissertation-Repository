@@ -83,6 +83,7 @@ Subsequently, we run the executable as follows::
 ---------------------------------------------------------
 **EXPERIMENT 3: I-RACE for tuning GENCAN: II**
 ---------------------------------------------------------
+
 For this experiment, the algorithm GENCAN from ALGENCAN version 4.0.0 was used, and IRACE was implemented to tune the parameters of interest defined in the dissertation. The training instances employed were taken from CUTEst for unconstrained problems and box-constrained problems.
 
 The following files were required for the execution of this experiment:
@@ -93,20 +94,21 @@ The following files were required for the execution of this experiment:
 4. irace_Gencan.R
 
 In this case, the GENCAN algorithm is executed through the *run-unc-bound-constr* script. This script compiles the *ls* and *hsl* libraries, as well as the CUTEst interface, using gencanma-forcutest.f90. To do so, we first execute: chmod +x run-unc-bound-constr, this bash script compiles all the required libraries. Then, the algorithm is executed as follows: $\phi_1 \ \phi_2 \ \phi_3 \ \phi_4 \ \phi_5 \ \phi_6 \ \phi_7 \ \phi_8 \ \phi_9 \ \phi_{10}$ ./run-unc-bound-constr, where each $\phi_i$ represents a different parameter of the GENCAN algorithm. After compilation, we proceed to execute the $R$ script using the command:Rscript irace_Gencan.R.
+
 ---------------------------------------------------------
 **EXPERIMENT 4: I-RACE for tuning ALGENCAN**
 ---------------------------------------------------------
 
-Para este experimento, se utilizo el ALGENCAN, de la version ALGENCAN 4.0.0, y se busco implementar IRACE, para ajustar los parametros definidos de interes definidos en la disertacion, las instancias de entrenamiento empleadas fueron las definidas en el CUTEst, para problemas no lineales h(x)=0, g(x)\leq 0, x\in \Omega.
+For this experiment, ALGENCAN version 4.0.0 was used, and IRACE was employed to tune the parameters of interest related to the penalty paremeter, defined in the dissertation. The training instances were selected from CUTEst and consisted of nonlinear optimization problems of the form $h(x)=0$, $g(x)\leq 0$, $x\in \Omega$.
 
-Para la ejecucion de este experimento fueron necesarios los siguientes archivos:
+The following files were required for the execution of this experiment.
 
 1. algencan.f90
 2. algencanma-forcutest.f90
 3. run-nlp
 4. irace_Algencan.R
 
-El algoritmo ALGENCAN, en este caso lo ejecutaremos mendiante el script run-nlp, en este compilaremos las librerias ls, hsl y la interfaz del CUTEst, mediante algencanma-forcutest.f90, para esto ejecutamos: chmod +x run-nlp, ese bash compila todas las librerias y seguidamente hacemos: $\zeta_1$ ζ1 ζ2 ./run-nlp problem, donde cada Φi, es un parametro distinto del Algoritmo GENCAN. Con la compilacion realizada procedemos a ejecutar el script en R con el comando Rscript irace_Gencan.R.
+In this case, the ALGENCAN algorithm is executed through the run-nlp script. This script compiles the *ls* and *hsl* libraries, as well as the CUTEst interface, using algencanma-forcutest.f90. To do so, we first execute: chmod +x run-nlp. This bash compiles all the required libraries. The algorithm is then executed as follows: $\zeta_1$ $\zeta_2$ ./run-nlp problem, donde cada $\zeta_i$, represents a different parameter of the ALGENCAN algorithm. Once the compilation step is completed, we proceed to execute the R script using the command: Rscript irace_Gencan.R.
 
 
 
