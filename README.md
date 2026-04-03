@@ -77,7 +77,7 @@ Subsequently, we run the executable as follows::
 
 ./gencan nprob method, con metodo$\in {newton,tr,tn}$
 
-(***) Para ejecutar el Script en R (5.1) y (5.2) y correr IRACE, en la consola de comando ejecutaremos, Rscript irace_GENCAN.R o bien irace_GENCAN_2.R, donde el runner en este caso correra el programa alojado en la ruta, donde se encuentra algencan-3.1.1: /home/user/Descargas/algencan-3.1.1/CODES_DISERTATION/Experiment2/gencan
+(***) To execute the $R$ scripts in (5.1) and (5.2) and run IRACE, we use the following command in the terminal:, Rscript irace_GENCAN.R or alternatively irace_GENCAN_2.R. In this case, the runner will execute the program located at the specified path(our case). algencan-3.1.1: /home/user/Descargas/algencan-3.1.1/CODES_DISERTATION/Experiment2/gencan
 
 
 ---------------------------------------------------------
