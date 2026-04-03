@@ -83,15 +83,16 @@ Subsequently, we run the executable as follows::
 ---------------------------------------------------------
 **EXPERIMENT 3: I-RACE for tuning GENCAN: II**
 ---------------------------------------------------------
+For this experiment, the algorithm GENCAN from ALGENCAN version 4.0.0 was used, and IRACE was implemented to tune the parameters of interest defined in the dissertation. The training instances employed were taken from CUTEst for unconstrained problems and box-constrained problems.
 
-Para este experimento, se utilizo el GENCAN, de la version ALGENCAN 4.0.0, y se busco implementar IRACE, para ajustar los parametros definidos de interes definidos en la disertacion, las instancias de entrenamiento empleadas fueron las definidas en el CUTEst, para problemas irestringidos y con restricciones de caja.
-
-Para la ejecucion de este experimento fueron necesarios los siguientes archivos:
+The following files were required for the execution of this experiment:
 
 1. gencan.f90
 2. gencanma-forcutest.f90
 3. run-unc-bound-contr
 4. irace_Gencan.R
+
+In this case, the GENCAN algorithm is executed through the *run-unc-bound-constr* script. This script compiles the *ls* and *hsl* libraries, as well as the CUTEst interface, using gencanma-forcutest.f90. To do so, we first execute: chmod +x run-unc-bound-constr, this bash script compiles all the required libraries. Then, the algorithm is executed as follows: $\phi_1 \ \phi_2 \ \phi_3 \ \phi_4 \ \phi_5 \ \phi_6 \ \phi_7 \ \phi_8 \ \phi_9 \ \phi_{10}$ ./run-unc-bound-constr
 
 El algoritmo GENCAN, en este caso lo ejecutaremos mendiante el script run-unc-bound-contr, en este compilaremos las librerias ls, hsl y la interfaz del CUTEst, mediante gencanma-forcutest.f90, para esto ejecutamos: chmod +x run-unc-bound-constr, ese bash compila todas las librerias y seguidamente hacemos: Φ1 Φ2 Φ3 Φ4 Φ5 Φ6 Φ7 Φ8 Φ9 Φ10 ./run-unc-bound-constr problem, donde cada Φi, es un parametro distinto del Algoritmo GENCAN. Con la compilacion realizada procedemos a ejecutar el script en R con el comando Rscript irace_Gencan.R.
 
