@@ -1,6 +1,6 @@
 
 *****************************************************************
-**Author: Andres Mauricio Ibarra Rodriguez**
+**Author: Andres Mauricio Ibarra Rodriguez**\\
 **Advisor: Prof. Dr. Ernesto Julian Golberg Birgin**
 *****************************************************************
 
@@ -101,7 +101,7 @@ Para la ejecucion de este experimento fueron necesarios los siguientes archivos:
 3. run-nlp
 4. irace_Algencan.R
 
-El algoritmo ALGENCAN, en este caso lo ejecutaremos mendiante el script run-nlp, en este compilaremos las librerias ls, hsl y la interfaz del CUTEst, mediante algencanma-forcutest.f90, para esto ejecutamos: chmod +x run-nlp, ese bash compila todas las librerias y seguidamente hacemos: ζ1 ζ2 ./run-nlp problem, donde cada Φi, es un parametro distinto del Algoritmo GENCAN. Con la compilacion realizada procedemos a ejecutar el script en R con el comando Rscript irace_Gencan.R.
+El algoritmo ALGENCAN, en este caso lo ejecutaremos mendiante el script run-nlp, en este compilaremos las librerias ls, hsl y la interfaz del CUTEst, mediante algencanma-forcutest.f90, para esto ejecutamos: chmod +x run-nlp, ese bash compila todas las librerias y seguidamente hacemos: $\zeta_1$ ζ1 ζ2 ./run-nlp problem, donde cada Φi, es un parametro distinto del Algoritmo GENCAN. Con la compilacion realizada procedemos a ejecutar el script en R con el comando Rscript irace_Gencan.R.
 
 
 
