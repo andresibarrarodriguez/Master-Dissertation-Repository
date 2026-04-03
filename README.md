@@ -1,6 +1,7 @@
 
 *****************************************************************
-**Author: Andres Mauricio Ibarra Rodriguez**\\
+**Author: Andres Mauricio Ibarra Rodriguez**
+
 **Advisor: Prof. Dr. Ernesto Julian Golberg Birgin**
 *****************************************************************
 
