@@ -17,7 +17,9 @@ Accordign to the contents of the dissertation the objetive of this is to use seq
 According to what is proposed in the dissertation, the following files are required to carry out this experiment.
 
 1.Montecarlo_Search.f90
+
 2.src_unc.f
+
 3.irace_Montecarlo.R
 
 
@@ -55,12 +57,12 @@ The following files are required for the execution of this experiment:
 
 (**Obs**: (5.1) y (5.2) the main difference between these scripts lies in the definition of the cost measure. $\mathcal{C}_1$ y $\mathcal{C}_2$.)
 
-(*) Para este compilamos de la forma: gfortran -c src_unc.f
+(*) For this experiment, we compile as follows: gfortran -c src_unc.f
 gfortran -c src_hes.f
 gfortran -c subroutines_GENCAN.f90
 gfortran -c conf_GENCAN.f90
 
-(**) Enlazamos con las rutas y librerias HSL:
+(**) We link the code with the HSL library and the corresponding paths.:
 
 gfortran -o gencan \
   conf_GENCAN.o \
@@ -71,7 +73,9 @@ gfortran -o gencan \
   /home/user/Descargas/algencan-3.1.1/lib/libhsl.a \
   -fopenmp
   
-Posteriormente, correremos el ejecutable de la forma: ./gencan nprob method, con metodo\in {newton,tr,tn}
+Subsequently, we run the executable as follows::
+
+./gencan nprob method, con metodo$\in {newton,tr,tn}$
 
 (***) Para ejecutar el Script en R (5.1) y (5.2) y correr IRACE, en la consola de comando ejecutaremos, Rscript irace_GENCAN.R o bien irace_GENCAN_2.R, donde el runner en este caso correra el programa alojado en la ruta, donde se encuentra algencan-3.1.1: /home/user/Descargas/algencan-3.1.1/CODES_DISERTATION/Experiment2/gencan
 
