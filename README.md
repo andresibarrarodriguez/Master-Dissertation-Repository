@@ -24,7 +24,7 @@ According to what is proposed in the dissertation, the following files are requi
 (*)To run the Monte_Carlo.f90 search program, we use the file src_unc.f, which contains the OBJ.f90 subroutines used for function evaluation. Compile with: gfortran -O2 -o montecarlo_search Montecarlo_Search.f90 src_unc.f y corremos como: 
 ./montecarlo_search nprob boxtype itrialmax
 
-(**) To run Irace and find a parameter configuration $\theta=(\rho, \Omega)$, use the file irace_Montecarlo.R. In that file, the line  exe <- "/home/user/Documentos/montecarlo_search", the path where the compiled evaluation program Montecarlo_Seach.f90 is located. 
+(**) To run Irace and find a parameter configuration $\theta=(\rho, \Omega)$, use the file irace_Montecarlo.R. In that file, the line  exe <- "/home/user/Documentos/montecarlo_search", set the path where the compiled evaluation program Montecarlo_Seach.f90 is located. 
 
 
 To run the script, execute:
@@ -37,6 +37,8 @@ To run the script, execute:
 ---------------------------------------------------------
 **EXPERIMENT 2: I-RACE for tuning GENCAN: I**
 ---------------------------------------------------------
+
+According to the methodology proposed in the dissertation, the objective of this experiment is to tune the internal optimization method implemented within Phase $\mathscr{F}_{I}$ by GENCAN in version 3.0.0 of ALGENCAN. In this version, the HSL library, specifically MA57, is used to solve the linear systems.
 
 De acuerdo con lo propuesto en la disertacion, el objetivo de este experimento es el ajuste del metodo de optimizacion interno dentro de la face, implementeado por GENCAN, en la version de ALGENCAN 3.0.0, esta contempla. En este usamos la libreria HSL, la MA-57, para resolver sistemas lineales.
 
