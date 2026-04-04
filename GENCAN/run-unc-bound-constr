@@ -1,0 +1,108 @@
+#!/bin/bash
+
+export ALGENCAN="$HOME/CODIGOS_DISERTACION/Experiment 3/algencan-4.0.0"
+ORIGINAL_DIR="$PWD"
+
+# Compilar librerías UNA SOLA VEZ usando lockfile
+#LOCKFILE="$ORIGINAL_DIR/.compile.lock"
+#COMPILE_DONE="$ORIGINAL_DIR/.compile.done"
+
+#if [ ! -f "$COMPILE_DONE" ]; then
+
+  
+  #if [ ! -f "$COMPILE_DONE" ]; then
+    #cd "$ORIGINAL_DIR"
+    
+    gfortran -w -c -O3 "$ALGENCAN/sources/blas/dgemm.f"
+    gfortran -w -c -O3 "$ALGENCAN/sources/blas/dgemv.f"
+    gfortran -w -c -O3 "$ALGENCAN/sources/blas/dtpmv.f"
+    gfortran -w -c -O3 "$ALGENCAN/sources/blas/dtpsv.f"
+    gfortran -w -c -O3 "$ALGENCAN/sources/blas/idamax.f"
+    gfortran -w -c -O3 "$ALGENCAN/sources/blas/lsame.f"
+    gfortran -w -c -O3 "$ALGENCAN/sources/blas/xerbla.f"
+    ar rcs libblas.a dgemm.o dgemv.o dtpmv.o dtpsv.o idamax.o lsame.o xerbla.o
+    
+    gfortran -w -c -O3 "$ALGENCAN/sources/hsl/fakemetis.f"
+    gfortran -w -c -O3 "$ALGENCAN/sources/hsl/ddeps.f"
+    gfortran -w -c -O3 "$ALGENCAN/sources/hsl/ddeps90.f90"
+    gfortran -w -c -O3 "$ALGENCAN/sources/hsl/hsl_ma57d.f90"
+    ar rcs libhsl.a fakemetis.o ddeps.o ddeps90.o hsl_ma57d.o
+    
+    gfortran -w -c -O3 "$ALGENCAN/sources/algencan/lss.f90"
+    gfortran -w -c -O3 "$ALGENCAN/sources/algencan/gencan.f90"
+    ar rcs libgencan.a lss.o gencan.o
+    
+   
+    gfortran -w -c -O3 "$ALGENCAN/sources/interfaces/cutest/gencanma-forcutest.f90"
+    
+    #touch "$COMPILE_DONE"
+  #fi
+  
+  
+#fi
+
+export tlim=30
+
+export MASTSIF=/home/andres/algencan-3.1.1/sif
+export ARCHDEFS=/home/andres/algencan-3.1.1/archdefs
+export SIFDECODE=/home/andres/algencan-3.1.1/sifdecode
+export CUTEST=/home/andres/algencan-3.1.1/cutest
+export MYARCH=pc64.lnx.gfo
+
+
+for i in $*
+do
+  # Crear directorio temporal
+  WORK_DIR=$(mktemp -d)
+  cd "$WORK_DIR"
+
+  $SIFDECODE/bin/sifdecoder $i.SIF
+
+  gfortran -w -c -O3 ELFUN.f $( [ -f EXTER.f ] && echo EXTER.f ) GROUP.f RANGE.f
+
+  gfortran -w ELFUN.o $( [ -f EXTER.o ] && echo EXTER.o ) GROUP.o RANGE.o "$ORIGINAL_DIR/gencanma-forcutest.o" \
+            -L"$ORIGINAL_DIR" -lgencan -lhsl -lblas \
+            -L"$CUTEST/objects/$MYARCH/double" -lcutest -o gencanma-forcutest
+
+  # Construir argumentos con formato correcto para Fortran
+  if [ "$EXTALLOWED" = "T" ]; then
+    ARGS=("$BETA" "$ETA" "$R" "$SGMMULT" "$NFNOPROGRMAX" "$MC1" "$MC2" "$MC3" "$MC4" ".true.")
+  else
+    ARGS=("0.5" "$ETA" "$R" "$SGMMULT" "$NFNOPROGRMAX" "$MC1" "$MC2" "$MC3" "$MC4" ".false.")
+  fi
+
+  # Limpiar archivos de ejecuciones anteriores
+  rm -f "$ORIGINAL_DIR/tabline.txt" "$ORIGINAL_DIR/solver-interrupted-tabline.txt"
+
+  ulimit -St 30
+  stdbuf -oL -eL timeout 30 ./gencanma-forcutest "${ARGS[@]}" | tee gencan-$i.log 2>&1 || true
+  cp gencan-$i.log "$ORIGINAL_DIR/gencan-${i}_$(date +%Y%m%d%H%M%S).log"
+  ulimit -St unlimited  
+
+  # Copiar tablines al directorio original
+  if [ -e tabline.txt ]; then
+    cp tabline.txt "$ORIGINAL_DIR/tabline.txt"
+  fi
+  if [ -e solver-interrupted-tabline.txt ]; then
+    cp solver-interrupted-tabline.txt "$ORIGINAL_DIR/solver-interrupted-tabline.txt"
+  fi
+
+  # Generar tabla en el directorio original
+  cd "$ORIGINAL_DIR"
+  
+  if [ -e tabline.txt ]; then
+    printf "Gencan     %10s" $i >> table-unc-bound-constr.txt
+    cat tabline.txt >> table-unc-bound-constr.txt
+  else
+    if [ -e solver-interrupted-tabline.txt ]; then
+      printf "Gencan     %10s %2d %3d %11.6f" $i 99 0 $tlim >> table-unc-bound-constr.txt
+      cat solver-interrupted-tabline.txt >> table-unc-bound-constr.txt
+    else
+      printf "Gencan     %10s no information at all\n" $i >> table-unc-bound-constr.txt
+    fi
+  fi
+
+  # Limpiar directorio temporal
+  rm -rf "$WORK_DIR"
+ 
+done
