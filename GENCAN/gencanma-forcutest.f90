@@ -137,7 +137,7 @@ program gencanma
   maxcountg(1:4)  = (/ 1, 100, 5000, 10000 /)
   extallowed      =   .true.
   
-  ! Read command-line arguments if provided
+  !Read the parameters, defined in the parameter space of interest of Irace from the comand line
   nargs = command_argument_count()
   
   if ( nargs .ge. 1 ) then
