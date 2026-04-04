@@ -3,16 +3,6 @@
 export ALGENCAN="$HOME/CODIGOS_DISERTACION/Experiment 3/algencan-4.0.0"
 ORIGINAL_DIR="$PWD"
 
-# Compilar librerías UNA SOLA VEZ usando lockfile
-#LOCKFILE="$ORIGINAL_DIR/.compile.lock"
-#COMPILE_DONE="$ORIGINAL_DIR/.compile.done"
-
-#if [ ! -f "$COMPILE_DONE" ]; then
-
-  
-  #if [ ! -f "$COMPILE_DONE" ]; then
-    #cd "$ORIGINAL_DIR"
-    
     gfortran -w -c -O3 "$ALGENCAN/sources/blas/dgemm.f"
     gfortran -w -c -O3 "$ALGENCAN/sources/blas/dgemv.f"
     gfortran -w -c -O3 "$ALGENCAN/sources/blas/dtpmv.f"
@@ -34,12 +24,6 @@ ORIGINAL_DIR="$PWD"
     
    
     gfortran -w -c -O3 "$ALGENCAN/sources/interfaces/cutest/gencanma-forcutest.f90"
-    
-    #touch "$COMPILE_DONE"
-  #fi
-  
-  
-#fi
 
 export tlim=30
 
@@ -64,14 +48,14 @@ do
             -L"$ORIGINAL_DIR" -lgencan -lhsl -lblas \
             -L"$CUTEST/objects/$MYARCH/double" -lcutest -o gencanma-forcutest
 
-  # Construir argumentos con formato correcto para Fortran
+  # Build the argument list with the appropriate values for the executable.
   if [ "$EXTALLOWED" = "T" ]; then
     ARGS=("$BETA" "$ETA" "$R" "$SGMMULT" "$NFNOPROGRMAX" "$MC1" "$MC2" "$MC3" "$MC4" ".true.")
   else
     ARGS=("0.5" "$ETA" "$R" "$SGMMULT" "$NFNOPROGRMAX" "$MC1" "$MC2" "$MC3" "$MC4" ".false.")
   fi
 
-  # Limpiar archivos de ejecuciones anteriores
+  
   rm -f "$ORIGINAL_DIR/tabline.txt" "$ORIGINAL_DIR/solver-interrupted-tabline.txt"
 
   ulimit -St 30
@@ -79,7 +63,7 @@ do
   cp gencan-$i.log "$ORIGINAL_DIR/gencan-${i}_$(date +%Y%m%d%H%M%S).log"
   ulimit -St unlimited  
 
-  # Copiar tablines al directorio original
+  #Copy tablines to the original directory
   if [ -e tabline.txt ]; then
     cp tabline.txt "$ORIGINAL_DIR/tabline.txt"
   fi
@@ -87,7 +71,7 @@ do
     cp solver-interrupted-tabline.txt "$ORIGINAL_DIR/solver-interrupted-tabline.txt"
   fi
 
-  # Generar tabla en el directorio original
+  # Generate the table in the original directory
   cd "$ORIGINAL_DIR"
   
   if [ -e tabline.txt ]; then
@@ -101,8 +85,6 @@ do
       printf "Gencan     %10s no information at all\n" $i >> table-unc-bound-constr.txt
     fi
   fi
-
-  # Limpiar directorio temporal
   rm -rf "$WORK_DIR"
  
 done
