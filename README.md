@@ -62,6 +62,11 @@ gfortran -c conf_GENCAN.f90
 
 (**) We link the code with the HSL library and the corresponding paths.:
 
+```bash
+chmod +x run-nlp
+./run-nlp
+```
+
 gfortran -o gencan \
   conf_GENCAN.o \
   subroutines_GENCAN.o \
