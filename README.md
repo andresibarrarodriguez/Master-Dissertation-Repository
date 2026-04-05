@@ -94,7 +94,13 @@ The following files were required for the execution of this experiment:
 3. run-unc-bound-contr
 4. Irace_Gencan-4.0.0.R
 
-In this case, the GENCAN algorithm is executed through the *run-unc-bound-constr* script. This script compiles the *ls* and *hsl* libraries, as well as the CUTEst interface, using gencanma-forcutest.f90. To do so, we first execute: chmod +x run-unc-bound-constr, this bash script compiles all the required libraries. Then, the algorithm is executed as follows: $\phi_1 \ \phi_2 \ \phi_3 \ \phi_4 \ \phi_5 \ \phi_6 \ \phi_7 \ \phi_8 \ \phi_9 \ \phi_{10}$ ./run-unc-bound-constr, where each $\phi_i$ represents a different parameter of the GENCAN algorithm, and following the order defined in gencanma-forcutest.f90. After compilation, we proceed to execute the $R$ script using the command:Rscript Irace_Gencan-4.0.0.R.
+In this case, the GENCAN algorithm is executed through the *run-unc-bound-constr* script. This script compiles the *ls* and *hsl* libraries, as well as the CUTEst interface, using gencanma-forcutest.f90. To do so, we first execute: chmod +x run-unc-bound-constr, this bash script compiles all the required libraries. Then, the algorithm is executed as follows:
+```bash
+$\phi_1 \ \phi_2 \ \phi_3 \ \phi_4 \ \phi_5 \ \phi_6 \ \phi_7 \ \phi_8 \ \phi_9 \ \phi_{10}$ ./run-unc-bound-constr,
+```
+where each $\phi_i$ represents a different parameter of the GENCAN algorithm, and following the order defined in gencanma-forcutest.f90. After compilation, we proceed to execute the $R$ script using the command:
+
+Rscript Irace_Gencan-4.0.0.R.
 
 ---------------------------------------------------------
 **EXPERIMENT 4: I-RACE for tuning ALGENCAN**
