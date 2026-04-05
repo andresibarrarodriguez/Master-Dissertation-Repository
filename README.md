@@ -20,18 +20,18 @@ According to what is proposed in the dissertation, the following files are requi
 
 2.src_unc.f
 
-3.irace_Montecarlo.R
+3.Irace_Montecarlo.R
 
 
 (*)To run the Monte_Carlo.f90 search program, we use the file src_unc.f, which contains the OBJ.f90 subroutines used for function evaluation. Compile with: gfortran -O2 -o montecarlo_search Montecarlo_Search.f90 src_unc.f y corremos como: 
 ./montecarlo_search nprob boxtype itrialmax
 
-(**) To run Irace and find a parameter configuration $\theta=(\rho, \Omega)$, use the file irace_Montecarlo.R. In that file, the line  exe <- "/home/user/Documentos/montecarlo_search", set the path where the compiled evaluation program Montecarlo_Seach.f90 is located. 
+(**) To run Irace and find a parameter configuration $\theta=(\rho, \Omega)$, use the file Irace_Montecarlo.R. In that file, the line  exe <- "/home/user/Documentos/montecarlo_search", set the path where the compiled evaluation program Montecarlo_Seach.f90 is located. 
 
 
 To run the script, execute:
 
-(***) Rscript irace_Montecarlo.R.
+(***) Rscript Irace_Montecarlo.R.
 
 
 
@@ -48,12 +48,12 @@ According to the methodology proposed in the dissertation, the objective of this
 
 The following files are required for the execution of this experiment:
 
-1. subroutines_GENCAN.f
+1. subroutines_GENCAN.f90
 2. conf_GENCAN.f90
 3. src_hes.f
 4. src_unc.f
-5.1. irace_GENCAN.R
-5.2. irace_GENCAN_2.R
+5.1.Irace_GENCAN-3.1.1.R
+5.2.Irace_GENCAN-3.1.1-(2).R
 
 (**Obs**: (5.1) y (5.2) the main difference between these scripts lies in the definition of the cost measure. $\mathcal{C}_1$ y $\mathcal{C}_2$.)
 
@@ -91,9 +91,9 @@ The following files were required for the execution of this experiment:
 1. gencan.f90
 2. gencanma-forcutest.f90
 3. run-unc-bound-contr
-4. irace_Gencan.R
+4. Irace_Gencan-4.0.0.R
 
-In this case, the GENCAN algorithm is executed through the *run-unc-bound-constr* script. This script compiles the *ls* and *hsl* libraries, as well as the CUTEst interface, using gencanma-forcutest.f90. To do so, we first execute: chmod +x run-unc-bound-constr, this bash script compiles all the required libraries. Then, the algorithm is executed as follows: $\phi_1 \ \phi_2 \ \phi_3 \ \phi_4 \ \phi_5 \ \phi_6 \ \phi_7 \ \phi_8 \ \phi_9 \ \phi_{10}$ ./run-unc-bound-constr, where each $\phi_i$ represents a different parameter of the GENCAN algorithm. After compilation, we proceed to execute the $R$ script using the command:Rscript irace_Gencan.R.
+In this case, the GENCAN algorithm is executed through the *run-unc-bound-constr* script. This script compiles the *ls* and *hsl* libraries, as well as the CUTEst interface, using gencanma-forcutest.f90. To do so, we first execute: chmod +x run-unc-bound-constr, this bash script compiles all the required libraries. Then, the algorithm is executed as follows: $\phi_1 \ \phi_2 \ \phi_3 \ \phi_4 \ \phi_5 \ \phi_6 \ \phi_7 \ \phi_8 \ \phi_9 \ \phi_{10}$ ./run-unc-bound-constr, where each $\phi_i$ represents a different parameter of the GENCAN algorithm. After compilation, we proceed to execute the $R$ script using the command:Rscript Irace_Gencan-4.0.0.R.
 
 ---------------------------------------------------------
 **EXPERIMENT 4: I-RACE for tuning ALGENCAN**
@@ -106,9 +106,9 @@ The following files were required for the execution of this experiment.
 1. algencan.f90
 2. algencanma-forcutest.f90
 3. run-nlp
-4. irace_Algencan.R
+4. Irace_Algencan-4.0.0.R
 
-In this case, the ALGENCAN algorithm is executed through the run-nlp script. This script compiles the *ls* and *hsl* libraries, as well as the CUTEst interface, using algencanma-forcutest.f90. To do so, we first execute: chmod +x run-nlp. This bash compiles all the required libraries. The algorithm is then executed as follows: $\zeta_1$ $\zeta_2$ ./run-nlp problem, donde cada $\zeta_i$, represents a different parameter of the ALGENCAN algorithm. Once the compilation step is completed, we proceed to execute the R script using the command: Rscript irace_Gencan.R.
+In this case, the ALGENCAN algorithm is executed through the run-nlp script. This script compiles the *ls* and *hsl* libraries, as well as the CUTEst interface, using algencanma-forcutest.f90. To do so, we first execute: chmod +x run-nlp. This bash compiles all the required libraries. The algorithm is then executed as follows: $\zeta_1$ $\zeta_2$ ./run-nlp problem, donde cada $\zeta_i$, represents a different parameter of the ALGENCAN algorithm. Once the compilation step is completed, we proceed to execute the R script using the command: Rscript Irace_Algencan-4.0.0.R.
 
 
 
