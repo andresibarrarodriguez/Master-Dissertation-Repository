@@ -31,26 +31,17 @@ program minf
     external :: myevalf, myevalg, myevalh, myevalc, myevaljac, myevalhc
     external :: myevalfc, myevalgjac, myevalgjacp, myevalhl, myevalhlp
     
-    ! PARSE COMMAND LINE ARGUMENTS
-    if (command_argument_count() .ne. 2) then
-        write(*,*) 'Usage: ./program problem_id method'
-        write(*,*) 'problem_id: 1-18'
-        write(*,*) 'method: newton, tn, tr'
-        stop 1
-    end if
-    
     call get_command_argument(1, method_str)
     read(method_str, *) problem_id
     call get_command_argument(2, method_str)
+ 
+    !current_nprob = problem_id
     
-    ! VALIDATE AND SET PROBLEM
-    !if (problem_id < 1 .or. problem_id > 18) then
-        !write(*,*) 'Error: problem_id must be between 1 and 18'
-        !stop 1
-    !end if
-    current_nprob = problem_id
-    
-    ! MAP METHOD TO ALGENCAN TOKEN
+    ! Map the internal minimization method to be used by GENCAN 3.1.1.
+    ! The methods available in this version are:
+    ! Newton with line search,
+    ! truncated Newton with line search, and
+    ! Newton with trust-region globalization.
     select case (trim(method_str))
         case ('newton')
             method_token = 'NEWTON-LINE-SEARCH-INNER-SOLVER'
@@ -58,20 +49,13 @@ program minf
             method_token = 'TRUNCATED-NEWTON-LINE-SEARCH-INNER-SOLVER'
         case ('tr')
             method_token = 'TRUST-REGIONS-INNER-SOLVER'
-        case default
-            write(*,*) 'Error: Invalid method. Use newton, tn, or tr'
-            stop 1
     end select
     call getdim(n,m)
     
-    ! ALLOCATE MEMORY FOR CONSTRAINTS
+    ! ALLOCATE MEMORY FOR CONSTRAINTS, (In case of problems with general constraints)
     allocate(equatn(max(m,1)), linear(max(m,1)), lambda(max(m,1)), x(n), l(n), u(n), stat=allocerr)
-    if (allocerr .ne. 0) then
-        write(*,*) 'Error de asignacion de memoria'
-        stop
-    end if
 
-    ! SET THE INITIAL POINT
+    ! SET THE INITIAL POINT 
     call getx0(n,x,l,u)
     
     ! SET THE ALGENCAN PARAMETERS
@@ -99,19 +83,13 @@ program minf
                   outputfnm,specfnm,nvparam,vparam,n,x,l,u,m,lambda,equatn, &
                   linear,coded,checkder,f,cnorm,snorm,nlpsupn,inform)
     
-    ! STANDARDIZED OUTPUT FOR IRACE - HERE THE FIRST LINE MUST BE fbest
-    write(*,'(A,*(1X,E15.8))') 'x =', x 
+
+    !write(*,'(A,*(1X,E15.8))') 'x =', x 
     
    write(*,'(A,1X,ES15.8)') 'fbest =', f
-   write(*,'(A,1X,ES15.8)') 'nlpsupn =', nlpsupn
-    
-
-    
-    ! Liberar memoria
+   
+    !Deallocate memory.
     deallocate(equatn, linear, lambda,x,l,u, stat=allocerr)
-    if (allocerr .ne. 0) then
-        write(*,*) 'Memory deallocation error'
-        stop
-    end if
+    
 
 end program minf
