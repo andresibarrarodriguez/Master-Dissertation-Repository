@@ -1,6 +1,6 @@
-! ======================================================================
-! MODULE FOR GLOBAL PROBLEM CONTROL
-! ======================================================================
+! ----------------------------------------------------------------------
+! MODULE FOR RELEATING THE PROBLEM WIH THEIR DIMENSION SIZE
+! ----------------------------------------------------------------------
 module problem_control
     implicit none
     integer :: current_nprob = 1
@@ -8,9 +8,9 @@ module problem_control
     integer, parameter :: ndims(18) = (/3,6,3,2,3,10,6,4,4,2,4,3,10,10,12,2,4,8/)
 end module problem_control
 
-! ======================================================================
+! ----------------------------------------------------------------------
 ! SUBROUTINE FOR SETTING THE INITIAL DIMENSION OF THE FUNCTION
-! ======================================================================
+! ----------------------------------------------------------------------
 subroutine getdim(n,m)
     use problem_control
     implicit none
@@ -20,10 +20,10 @@ subroutine getdim(n,m)
     m = 0
 end subroutine getdim
 
-! ======================================================================
-! SUBROUTINE FOR SETTING THE INITIAL POINT
-! ======================================================================
 
+! ----------------------------------------------------------------------
+! SUBROUTINE FOR SETTING THE INITIAL POINT
+! ----------------------------------------------------------------------
 subroutine getx0(n,x,l,u)
   use problem_control
   implicit none
@@ -33,16 +33,17 @@ subroutine getx0(n,x,l,u)
   real(kind=8), intent(out) :: x(n),l(n),u(n)
   real(kind=8), parameter :: factor = 1.0d0
   
-  ! USE INITPT TO GET THE CORRECT INITIAL POINT FOR CURRENT PROBLEM
+  ! USE INITPT TO GET THE INITIAL POINT FOR CURRENT PROBLEM
   call INITPT(n, x, current_nprob, factor)
   
   l(1:n) = -1.0d20
   u(1:n) =  1.0d20
 end subroutine getx0
 
-! ======================================================================
-! SUBROUTINE FOR EVALUATING THE FUCTION USING THE SUBROUTINE OBJFCN
-! ======================================================================
+
+! ----------------------------------------------------------------------
+! SUBROUTINE TO EVALUATE THE OBJECTIVE FUNCTION USING OBJFCN
+! ----------------------------------------------------------------------
 subroutine myevalf(n,x,f,flag)
     use problem_control
     implicit none
@@ -58,9 +59,9 @@ subroutine myevalf(n,x,f,flag)
     flag = 0
 end subroutine myevalf
 
-! ============================================================================
+! -------------------------------------------------------------------------
 ! SUBROUTINE FOR EVALUATING THE GRADIENT VECTOR USING THE SUBROUTINE GRDFCN
-! ============================================================================
+! -------------------------------------------------------------------------
 subroutine myevalg(n,x,g,flag)
     use problem_control
     implicit none
@@ -76,9 +77,9 @@ subroutine myevalg(n,x,g,flag)
     flag = 0
 end subroutine myevalg
 
-! ==========================================================================
+! ----------------------------------------------------------------------
 ! SUBROUTINE FOR EVALUATING THE HESSIAN MATRIX USING THE SUBROUTINE HESFCN
-! ==========================================================================
+! ----------------------------------------------------------------------
 subroutine myevalh(n,x,hrow,hcol,hval,hnnz,lim,lmem,flag)
     use problem_control
     implicit none
@@ -118,9 +119,9 @@ subroutine myevalh(n,x,hrow,hcol,hval,hnnz,lim,lmem,flag)
     flag = 0
 end subroutine myevalh
 
-! ======================================================================
-! SUBROUTINE FOR GENERAL CONSTRAINTS 
-! ======================================================================
+! ----------------------------------------------------------------------
+! SUBROUTINE FOR GENERAL CONSTRAINTS (If there exists)
+! ----------------------------------------------------------------------
 subroutine myevalc(n,x,ind,c,flag)
     integer, intent(in) :: n, ind
     real(kind=8), intent(in) :: x(n)
@@ -202,18 +203,11 @@ subroutine myevalhlp(n,x,m,lambda,sf,sc,p,hp,goth,flag)
 end subroutine myevalhlp
 
 
-! ======================================================================
-! SUBROUTINE TO SET CURRENT PROBLEM NUMBER (FOR EXTERNAL USE)
-! ======================================================================
-!subroutine set_problem(nprob)
-!    use problem_control
-!    implicit none
-!    integer, intent(in) :: nprob
-!    
-!    if (nprob >= 1 .and. nprob <= 18) then
-!        current_nprob = nprob
-!    else
- !       write(*,*) 'Error: Problem number must be between 1 and 18'
-  !      current_nprob = 1
-  !  endif
-!end subroutine set_problem
+! ----------------------------------------------------------------------
+! SUBROUTINE TO SET CURRENT PROBLEM NUMBER
+! ----------------------------------------------------------------------
+subroutine set_problem(nprob)
+    use problem_control
+    implicit none
+    integer, intent(in) :: nprob
+end subroutine set_problem
