@@ -72,7 +72,7 @@ do
     cp solver-interrupted-tabline.txt "$ORIGINAL_DIR/solver-interrupted-tabline.txt"
   fi
 
-  # Generate the table in the original directory
+  #Append the tabline output to the summary table in the original directory.
   cd "$ORIGINAL_DIR"
   
   if [ -e tabline.txt ]; then
