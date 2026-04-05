@@ -3,33 +3,31 @@
 export ALGENCAN="$HOME/Experimet_4/algencan-4.0.0/algencan-4.0.0"
 ORIGINAL_DIR="$PWD"
   
-  gfortran -c -O3 "$ALGENCAN/sources/blas/dgemm.f"
-  gfortran -c -O3 "$ALGENCAN/sources/blas/dgemv.f"
-  gfortran -c -O3 "$ALGENCAN/sources/blas/dtpmv.f"
-  gfortran -c -O3 "$ALGENCAN/sources/blas/dtpsv.f"
-  gfortran -c -O3 "$ALGENCAN/sources/blas/idamax.f"
-  gfortran -c -O3 "$ALGENCAN/sources/blas/lsame.f"
-  gfortran -c -O3 "$ALGENCAN/sources/blas/xerbla.f"
-  ar rcs libblas.a dgemm.o dgemv.o dtpmv.o dtpsv.o idamax.o lsame.o xerbla.o
+gfortran -c -O3 "$ALGENCAN/sources/blas/dgemm.f"
+gfortran -c -O3 "$ALGENCAN/sources/blas/dgemv.f"
+gfortran -c -O3 "$ALGENCAN/sources/blas/dtpmv.f"
+gfortran -c -O3 "$ALGENCAN/sources/blas/dtpsv.f"
+gfortran -c -O3 "$ALGENCAN/sources/blas/idamax.f"
+gfortran -c -O3 "$ALGENCAN/sources/blas/lsame.f"
+gfortran -c -O3 "$ALGENCAN/sources/blas/xerbla.f"
+ar rcs libblas.a dgemm.o dgemv.o dtpmv.o dtpsv.o idamax.o lsame.o xerbla.o
 
-  gfortran -c -O3 "$ALGENCAN/sources/hsl/fakemetis.f"
-  gfortran -c -O3 "$ALGENCAN/sources/hsl/ddeps.f"
-  gfortran -c -O3 "$ALGENCAN/sources/hsl/ddeps90.f90"
-  gfortran -c -O3 "$ALGENCAN/sources/hsl/hsl_ma57d.f90"
-  ar rcs libhsl.a fakemetis.o ddeps.o ddeps90.o hsl_ma57d.o
+gfortran -c -O3 "$ALGENCAN/sources/hsl/fakemetis.f"
+gfortran -c -O3 "$ALGENCAN/sources/hsl/ddeps.f"
+gfortran -c -O3 "$ALGENCAN/sources/hsl/ddeps90.f90"
+gfortran -c -O3 "$ALGENCAN/sources/hsl/hsl_ma57d.f90"
+ar rcs libhsl.a fakemetis.o ddeps.o ddeps90.o hsl_ma57d.o
 
-  gfortran -c -O3 -Wall "$ALGENCAN/sources/algencan/lss.f90"
-  gfortran -c -O3 -Wall "$ALGENCAN/sources/algencan/gencan.f90"
-  gfortran -c -O3 -Wall "$ALGENCAN/sources/algencan/memev.f90"
-  gfortran -c -O3 -Wall "$ALGENCAN/sources/algencan/feasgencan.f90"
-  gfortran -c -O3 -Wall "$ALGENCAN/sources/algencan/newtkkt.f90"
-  gfortran -c -O3 -Wall "$ALGENCAN/sources/algencan/algencan.f90"
-  ar rcs libalgencan.a lss.o gencan.o memev.o feasgencan.o newtkkt.o algencan.o
+gfortran -c -O3 -Wall "$ALGENCAN/sources/algencan/lss.f90"
+gfortran -c -O3 -Wall "$ALGENCAN/sources/algencan/gencan.f90"
+gfortran -c -O3 -Wall "$ALGENCAN/sources/algencan/memev.f90"
+gfortran -c -O3 -Wall "$ALGENCAN/sources/algencan/feasgencan.f90"
+gfortran -c -O3 -Wall "$ALGENCAN/sources/algencan/newtkkt.f90"
+gfortran -c -O3 -Wall "$ALGENCAN/sources/algencan/algencan.f90"
+ar rcs libalgencan.a lss.o gencan.o memev.o feasgencan.o newtkkt.o algencan.o
 
-  gfortran -c -O3 -Wall "$ALGENCAN/sources/interfaces/cutest/algencanma-forcutest.f90"
+gfortran -c -O3 -Wall "$ALGENCAN/sources/interfaces/cutest/algencanma-forcutest.f90"
 
-  touch "$COMPILE_DONE"
-fi
 
 export tlim=30
 
@@ -41,7 +39,7 @@ export MYARCH=pc64.lnx.gfo
 
 for i in $*
 do
-  # Crear directorio temporal
+  # Create a temporary directory
   WORK_DIR=$(mktemp -d)
   cd "$WORK_DIR"
 
@@ -56,7 +54,9 @@ do
   rm -f "$ORIGINAL_DIR/tabline.txt" "$ORIGINAL_DIR/alsolver-interrupted-tabline.txt"
 
   ulimit -St 30
-  # Build the argument list with the appropriate values for the executable.
+
+  # Run the executable with RHOMULT and RHOFRAC as command-line arguments.
+  # Save the output to a log file and copy it to the original directory.
   stdbuf -oL -eL timeout 30 ./algencanma-forcutest "$RHOMULT" "$RHOFRAC" 2>&1 | tee algencan-$i.log || true
   cp algencan-$i.log "$ORIGINAL_DIR/algencan-${i}_$(date +%Y%m%d%H%M%S).log"
   ulimit -St unlimited  
