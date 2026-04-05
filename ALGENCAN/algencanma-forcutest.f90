@@ -239,7 +239,8 @@ program algencama
   rhofrac         =    0.5d0
   !extallowed      = .true.
 
-  !Reading arguments from the commmand line
+  ! Here we implemented a modification of the original CUTEst interface code for ALGENCAN.
+  ! In the following lines, the input arguments are read from the command line.
 
   nargs = command_argument_count()
   
