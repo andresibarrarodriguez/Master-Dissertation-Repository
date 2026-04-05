@@ -63,11 +63,7 @@ gfortran -c conf_GENCAN.f90
 (**) We link the code with the HSL library and the corresponding paths.:
 
 ```bash
-chmod +x run-nlp
-./run-nlp
-```
-
-gfortran -o gencan \
+  gfortran -o gencan \
   conf_GENCAN.o \
   subroutines_GENCAN.o \
   src_unc.o \
@@ -75,6 +71,7 @@ gfortran -o gencan \
   /home/user/Descargas/algencan-3.1.1/lib/libalgencan.a \
   /home/user/Descargas/algencan-3.1.1/lib/libhsl.a \
   -fopenmp
+```
   
 Subsequently, we run the executable as follows::
 
