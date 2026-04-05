@@ -21,15 +21,8 @@ evaluate_gencan <- function(problem_id, configuration) {
   
   exe <- "/home/user/Descargas/algencan-3.1.1/CODES_DISERTATION/Experiment2/gencan"
   method <- as.character(configuration$method)
-  pid <- as.numeric(problem_id)
-  
- 
-  # ----------------------------------------------------------------------
-  
+  pid <- as.numeric(problem_id) 
   result <- system2(exe, args = c(pid, method), stdout = TRUE, stderr = trash)
-  
-  # ----------------------------------------------------------------------
-  
   
   idx_fbest <- grep("^\\s*fbest\\s*=", result, ignore.case = TRUE)
   
@@ -46,8 +39,9 @@ evaluate_gencan <- function(problem_id, configuration) {
   
   
   # ----------------------------------------------------------------------
-  #Definition of the Cost Measure:         
-  
+  #Definition of the Cost Measure:
+  # ----------------------------------------------------------------------
+
   ref_value <- f_ref[pid]
   threshold <- ref_value + f_tol * max(1, abs(ref_value))
   
