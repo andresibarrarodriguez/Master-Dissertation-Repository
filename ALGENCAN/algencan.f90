@@ -315,6 +315,10 @@ contains
     type(memev_backup_type), intent(inout) :: memevb
     type(lss_type), intent(inout) :: lss
 
+    ! The parameters (defined in the Dissertation) that were previously 
+    !fixed (rhomult, rhofrac) have been made tunable  and are now passed as arguments to 
+    !the ALGENCAN subroutine.
+
     ! ARRAY ARGUMENTS
     logical, intent(in), target :: lind(n),uind(n)
     real(kind=8), intent(in):: rhomult, rhofrac
