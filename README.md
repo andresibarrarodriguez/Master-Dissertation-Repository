@@ -76,7 +76,10 @@ gfortran -c conf_GENCAN.f90
   
 Subsequently, we run the executable as follows::
 
-./gencan nprob method, con metodo$\in {newton,tr,tn}$
+```bash
+./gencan nprob method
+```
+with method $\in {newton,tr,tn}$
 
 (***) To execute the $R$ scripts in (5.1) and (5.2) and run IRACE, we use the following command in the terminal:, Rscript irace_GENCAN.R or alternatively irace_GENCAN_2.R. In this case, the runner will execute the program located at the specified path(our case). algencan-3.1.1: /home/user/Descargas/algencan-3.1.1/CODES_DISERTATION/Experiment2/gencan
 
@@ -100,8 +103,9 @@ $\phi_1 \ \phi_2 \ \phi_3 \ \phi_4 \ \phi_5 \ \phi_6 \ \phi_7 \ \phi_8 \ \phi_9 
 ```
 where each $\phi_i$ represents a different parameter of the GENCAN algorithm, and following the order defined in gencanma-forcutest.f90. After compilation, we proceed to execute the $R$ script using the command:
 
+```bash
 Rscript Irace_Gencan-4.0.0.R.
-
+```
 ---------------------------------------------------------
 **EXPERIMENT 4: I-RACE for tuning ALGENCAN**
 ---------------------------------------------------------
@@ -115,7 +119,18 @@ The following files were required for the execution of this experiment.
 3. run-nlp
 4. Irace_Algencan-4.0.0.R
 
-In this case, the ALGENCAN algorithm is executed through the run-nlp script. This script compiles the *ls* and *hsl* libraries, as well as the CUTEst interface, using algencanma-forcutest.f90. To do so, we first execute: chmod +x run-nlp. This bash compiles all the required libraries. The algorithm is then executed as follows: $\zeta_1$ $\zeta_2$ ./run-nlp problem, donde cada $\zeta_i$, represents a different parameter of the ALGENCAN algorithm. Once the compilation step is completed, we proceed to execute the R script using the command: Rscript Irace_Algencan-4.0.0.R.
+In this case, the ALGENCAN algorithm is executed through the run-nlp script. This script compiles the *ls* and *hsl* libraries, as well as the CUTEst interface, using algencanma-forcutest.f90. To do so, we first execute:
+```bash
+chmod +x run-nlp
+```
+This bash compiles all the required libraries. The algorithm is then executed as follows: 
+```bash
+$\zeta_1$ $\zeta_2$ ./run-nlp problem
+```
+where each $\zeta_i$, represents a different parameter of the ALGENCAN algorithm. Once the compilation step is completed, we proceed to execute the R script using the command: 
+```bash
+Rscript Irace_Algencan-4.0.0.R.
+```
 
 
 
