@@ -3,27 +3,27 @@
 export ALGENCAN="$HOME/CODIGOS_DISERTACION/Experiment 3/algencan-4.0.0"
 ORIGINAL_DIR="$PWD"
 
-    gfortran -w -c -O3 "$ALGENCAN/sources/blas/dgemm.f"
-    gfortran -w -c -O3 "$ALGENCAN/sources/blas/dgemv.f"
-    gfortran -w -c -O3 "$ALGENCAN/sources/blas/dtpmv.f"
-    gfortran -w -c -O3 "$ALGENCAN/sources/blas/dtpsv.f"
-    gfortran -w -c -O3 "$ALGENCAN/sources/blas/idamax.f"
-    gfortran -w -c -O3 "$ALGENCAN/sources/blas/lsame.f"
-    gfortran -w -c -O3 "$ALGENCAN/sources/blas/xerbla.f"
-    ar rcs libblas.a dgemm.o dgemv.o dtpmv.o dtpsv.o idamax.o lsame.o xerbla.o
-    
-    gfortran -w -c -O3 "$ALGENCAN/sources/hsl/fakemetis.f"
-    gfortran -w -c -O3 "$ALGENCAN/sources/hsl/ddeps.f"
-    gfortran -w -c -O3 "$ALGENCAN/sources/hsl/ddeps90.f90"
-    gfortran -w -c -O3 "$ALGENCAN/sources/hsl/hsl_ma57d.f90"
-    ar rcs libhsl.a fakemetis.o ddeps.o ddeps90.o hsl_ma57d.o
-    
-    gfortran -w -c -O3 "$ALGENCAN/sources/algencan/lss.f90"
-    gfortran -w -c -O3 "$ALGENCAN/sources/algencan/gencan.f90"
-    ar rcs libgencan.a lss.o gencan.o
-    
-   
-    gfortran -w -c -O3 "$ALGENCAN/sources/interfaces/cutest/gencanma-forcutest.f90"
+gfortran -w -c -O3 "$ALGENCAN/sources/blas/dgemm.f"
+gfortran -w -c -O3 "$ALGENCAN/sources/blas/dgemv.f"
+gfortran -w -c -O3 "$ALGENCAN/sources/blas/dtpmv.f"
+gfortran -w -c -O3 "$ALGENCAN/sources/blas/dtpsv.f"
+gfortran -w -c -O3 "$ALGENCAN/sources/blas/idamax.f"
+gfortran -w -c -O3 "$ALGENCAN/sources/blas/lsame.f"
+gfortran -w -c -O3 "$ALGENCAN/sources/blas/xerbla.f"
+ar rcs libblas.a dgemm.o dgemv.o dtpmv.o dtpsv.o idamax.o lsame.o xerbla.o
+
+gfortran -w -c -O3 "$ALGENCAN/sources/hsl/fakemetis.f"
+gfortran -w -c -O3 "$ALGENCAN/sources/hsl/ddeps.f"
+gfortran -w -c -O3 "$ALGENCAN/sources/hsl/ddeps90.f90"
+gfortran -w -c -O3 "$ALGENCAN/sources/hsl/hsl_ma57d.f90"
+ar rcs libhsl.a fakemetis.o ddeps.o ddeps90.o hsl_ma57d.o
+
+gfortran -w -c -O3 "$ALGENCAN/sources/algencan/lss.f90"
+gfortran -w -c -O3 "$ALGENCAN/sources/algencan/gencan.f90"
+ar rcs libgencan.a lss.o gencan.o
+
+
+gfortran -w -c -O3 "$ALGENCAN/sources/interfaces/cutest/gencanma-forcutest.f90"
 
 export tlim=30
 
@@ -36,7 +36,7 @@ export MYARCH=pc64.lnx.gfo
 
 for i in $*
 do
-  # Crear directorio temporal
+  # Create a temporary directory
   WORK_DIR=$(mktemp -d)
   cd "$WORK_DIR"
 
@@ -48,7 +48,8 @@ do
             -L"$ORIGINAL_DIR" -lgencan -lhsl -lblas \
             -L"$CUTEST/objects/$MYARCH/double" -lcutest -o gencanma-forcutest
 
-  # Build the argument list with the appropriate values for the executable.
+    #Run the executable with the parameters: BETA, ETA, R, SGMMULT, NFNOPROGRMAX, MAXCOUNTG(I), and EXTALLOWED as command-line arguments.
+    # Save the output to a log file and copy it to the original directory.
   if [ "$EXTALLOWED" = "T" ]; then
     ARGS=("$BETA" "$ETA" "$R" "$SGMMULT" "$NFNOPROGRMAX" "$MC1" "$MC2" "$MC3" "$MC4" ".true.")
   else
