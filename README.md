@@ -81,9 +81,14 @@ Subsequently, we run the executable as follows::
 ```
 with method $\in {newton,tr,tn}$
 
-(***) To execute the $R$ scripts in (5.1) and (5.2) and run IRACE, we use the following command in the terminal:, Rscript irace_GENCAN.R or alternatively irace_GENCAN_2.R. In this case, the runner will execute the program located at the specified path(our case). algencan-3.1.1: /home/user/Descargas/algencan-3.1.1/CODES_DISERTATION/Experiment2/gencan
-
-
+(***) To execute the $R$ scripts in (5.1) and (5.2) and run IRACE, we use the following command in the terminal:
+```bash
+Rscript Irace_GENCAN-3.1.1.R 
+```
+or alternatively 
+```bash
+Irace_GENCAN-3.1.1-(2).R. 
+```
 ---------------------------------------------------------
 **EXPERIMENT 3: I-RACE for tuning GENCAN: II**
 ---------------------------------------------------------
@@ -101,7 +106,7 @@ In this case, the GENCAN algorithm is executed through the *run-unc-bound-constr
 ```bash
 $\phi_1 \ \phi_2 \ \phi_3 \ \phi_4 \ \phi_5 \ \phi_6 \ \phi_7 \ \phi_8 \ \phi_9 \ \phi_{10}$ ./run-unc-bound-constr,
 ```
-where each $\phi_i$ represents a different parameter of the GENCAN algorithm, and following the order defined in gencanma-forcutest.f90. After compilation, we proceed to execute the $R$ script using the command:
+where each $\phi_i$ represents a different parameter of the GENCAN algorithm, and following the order defined in gencanma-forcutest.f90. After compilation, we proceed to execute the R script using the command:
 
 ```bash
 Rscript Irace_Gencan-4.0.0.R.
