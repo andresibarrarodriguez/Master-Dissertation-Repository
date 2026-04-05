@@ -51,10 +51,10 @@ The following files are required for the execution of this experiment:
 2. conf_GENCAN.f90
 3. src_hes.f
 4. src_unc.f
-5.1.Irace_GENCAN-3.1.1.R
-5.2.Irace_GENCAN-3.1.1-(2).R
+5. Irace_GENCAN-3.1.1.R
+6. Irace_GENCAN-3.1.1-(2).R
 
-(**Obs**: (5.1) y (5.2) the main difference between these scripts lies in the definition of the cost measure. $\mathcal{C}_1$ y $\mathcal{C}_2$.)
+(**Obs**: (5) and (6) the main difference between these scripts lies in the definition of the cost measure. $\mathcal{C}_1$ y $\mathcal{C}_2$.)
 
 (*) For this experiment, we compile as follows: gfortran -c src_unc.f
 gfortran -c src_hes.f
