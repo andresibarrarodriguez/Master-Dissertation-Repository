@@ -4,9 +4,9 @@
 
 **Advisor: Prof. Dr. Ernesto Julian Golberg Birgin**
 *****************************************************************
-This is the Master Repository from my Master Disertation in Applied Mathematics at Sao Paulo University, 
+This is the master repository for my Master’s dissertation in Applied Mathematics at São Paulo University.
 
-Accordign to the contents of the dissertation the objetive of this is to use **Sequential statistical learning for tuning the augmented Lagrangian algorithm ALGENCAN.** using **IRACE**. For this purpose in this repository contains five codes in R which are responsible to execute the main algorithm which are written in FORTRAN. There was implemented four experiments, we gave a brief description below and the corresponding codes in the repository and how it should be used.
+According to the dissertation, the objective of this work is to use **sequential statistical learning to tune the augmented Lagrangian algorithm ALGENCAN** using **IRACE**. For this purpose, this repository contains five R scripts responsible for executing the main algorithm, which are written in FORTRAN. Four experiments were implemented; a brief description of each experiment is provided below, along with the corresponding scripts and instructions for their use.
 
 ----------------------------------------------------------
 **EXPERIMENT 1: I-RACE for tuning Monte Carlo Algorithm**
