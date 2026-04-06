@@ -5,7 +5,7 @@
 \resizebox{\textwidth}{!}{
 \begin{tabular}{|l|c|c|c|c|c|c|c||c|c|c|c|c|c|c||c|c|c|c|c|c|c|}
 \hline
-Problem & \multicolumn{7}{c||}{IRACE 1: DEFAULT} & \multicolumn{7}{c||}{IRACE 2} & \multicolumn{7}{c|}{IRACE 3} \\
+Problem & \multicolumn{7}{c||}{ALGENCAN-IRACE: \theta_1} & \multicolumn{7}{c||}{ALGENCAN-IRACE \theta_2} & \multicolumn{7}{c|}{ALGENCAN-DEFAULT} \\
 \hline
  & IT & fcnt & Time & $f(\theta^*)$ & cnorm & nlpsupn & $C_2$
  & IT & fcnt & Time & $f(\theta^*)$ & cnorm & nlpsupn & $C_2$
