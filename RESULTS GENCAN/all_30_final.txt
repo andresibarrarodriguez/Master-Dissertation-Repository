@@ -1,3 +1,4 @@
+#Testing results comparing configurations θ₁ and θ₂ with the default configuration on 472 instances from the CUTEst set, using a time limit of 10 minutes (training performed on 30 instances).
 \begin{table}[H]
 \centering
 \label{tab:comparison1}
