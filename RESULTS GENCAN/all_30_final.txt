@@ -1,3 +1,15 @@
+\begin{table}[H]
+\centering
+\label{tab:comparison1}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|l|c|c|c|c|c||c|c|c|c|c||c|c|c|c|c|c|c|}
+\hline
+\textbf{Problem} & \multicolumn{5}{c||}{\textbf{GENCAN IRACE: $\theta_1$}} & \multicolumn{5}{c||}{\textbf{GENCAN IRACE: $\theta_2$}} & \multicolumn{5}{c|}{\textbf{GENCAN DEFAULT}} \\
+\hline
+ & \textbf{IT} & \textbf{fcnt} & \textbf{Time} & \textbf{$f(\theta,I)$} & \textbf{$\|g_p(\theta,I)\|_{\infty}$}
+ & \textbf{IT} & \textbf{fcnt} & \textbf{Time} & \textbf{$f(\theta,I)$} & \textbf{$\|g_p(\theta,I)\|_{\infty}$}
+ & \textbf{IT} & \textbf{fcnt} & \textbf{Time} & \textbf{$f(\theta,I)$} & \textbf{$\|g_p(\theta,I)\|_{\infty}$} \\
+\hline\hline
 BQP1VAR & 1 & 2 & 0.00011 & 0.00000000E+00 & 0.0E+00 & 1 & 2 & 0.00011 & 0.00000000E+00 & 0.0E+00 & 1 & 2 & 0.00017 & 0.00000000E+00 & 0.0E+00 \\
 \hline
 MUONSINELS & 7 & 8 & 0.00075 & 4.95291245E+04 & 9.1E-10 & 7 & 8 & 0.00077 & 4.95291245E+04 & 9.1E-10 & 3 & 10 & 0.00074 & 4.38741169E+04 & 9.8E-11 \\
@@ -942,4 +954,7 @@ YATP2CLS & 0 & 1 & 600.00000 & 7.67267205E+09 & 2.1E+03 & 0 & 1 & 600.00000 & 7.
 \hline
 WALL100 & 36 & 59 & 7.51120 & -8.95439745E+03 & 2.7E-11 & 36 & 59 & 7.75921 & -8.95439745E+03 & 2.7E-11 & 15 & 37 & 5.10621 & -8.95439745E+03 & 2.9E-11 \\
 \hline
+\end{tabular}%
+}
+\end{table} 
 
