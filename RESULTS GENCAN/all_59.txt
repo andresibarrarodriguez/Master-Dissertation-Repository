@@ -1,3 +1,11 @@
+#Testing results comparing configurations θ₁ and θ₂ with the default configuration on 472 instances from the CUTEst set, using a time limit of 10 minutes (training performed on 59 instances).
+\begin{table}[H]
+\centering
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|l|c|c|c|c|c||c|c|c|c|c||c|c|c|c|c|c|c|}
+\hline
+\textbf{Problem} & \multicolumn{5}{c||}{\textbf{GENCAN IRACE: $\theta_1$}} & \multicolumn{5}{c||}{\textbf{GENCAN IRACE: $\theta_2$}} & \multicolumn{5}{c|}{\textbf{GENCAN DEFAULT}} \\
+\hline
 BQP1VAR & 1 & 2 & 0.00013 & 0.00000000E+00 & 0.0E+00 & 1 & 2 & 0.00011 & 0.00000000E+00 & 0.0E+00 & 1 & 2 & 0.00017 & 0.00000000E+00 & 0.0E+00 \\
 \hline
 MUONSINELS & 7 & 8 & 0.00078 & 4.38741169E+04 & 1.3E-10 & 7 & 8 & 0.00178 & 4.38741169E+04 & 1.3E-10 & 3 & 10 & 0.00074 & 4.38741169E+04 & 9.8E-11 \\
@@ -942,4 +950,5 @@ YATP2CLS & 0 & 1 & 600.00000 & 7.67267205E+09 & 2.1E+03 & 0 & 1 & 600.00000 & 7.
 \hline
 WALL100 & 37 & 60 & 8.53911 & -8.95439745E+03 & 2.8E-11 & 37 & 60 & 8.05277 & -8.95439745E+03 & 2.8E-11 & 15 & 37 & 5.10621 & -8.95439745E+03 & 2.9E-11 \\
 \hline
+\end{table}
 
