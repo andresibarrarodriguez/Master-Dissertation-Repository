@@ -2,7 +2,7 @@
 *****************************************************************
 **Author: Andres Mauricio Ibarra Rodriguez**
 
-**Advisor: Prof. Dr. Ernesto Julian Golberg Birgin**
+**Advisor: Prof. Dr. Ernesto Julian Goldberg Birgin**
 *****************************************************************
 This is the master repository for my Master’s dissertation in Applied Mathematics at São Paulo University.
 
