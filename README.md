@@ -9,7 +9,7 @@ This is the master repository for my Master’s dissertation in Applied Mathemat
 According to the dissertation, the objective of this work is to use **sequential statistical learning to tune the augmented Lagrangian algorithm ALGENCAN** using **IRACE**. For this purpose, this repository contains five R scripts responsible for executing the main algorithm, which are written in FORTRAN. Four experiments were implemented; a brief description of each experiment is provided below, along with the corresponding scripts and instructions for their use.
 
 ----------------------------------------------------------
-**EXPERIMENT 1: I-RACE for tuning Monte Carlo Algorithm**
+**Experiment 1: I-RACE for tuning Monte Carlo Algorithm**
 ----------------------------------------------------------
 
 According to what is proposed in the dissertation, the following files are required to carry out this experiment.
@@ -36,7 +36,7 @@ To run the script, execute:
 Rscript Irace_Montecarlo.R.
 ```
 ---------------------------------------------------------
-**EXPERIMENT 2: I-RACE for tuning GENCAN: I**
+**Experiment 2: I-RACE for tuning GENCAN: I**
 ---------------------------------------------------------
 
 According to the methodology proposed in the dissertation, the objective of this experiment is to tune the internal optimization method implemented within Phase $\mathscr{F}_{I}$ by GENCAN in version 3.1.1 of ALGENCAN. In this version, the HSL library, specifically MA57, is used to solve the linear systems.
@@ -90,7 +90,7 @@ or alternatively
 Irace_GENCAN-3.1.1-(2).R. 
 ```
 ---------------------------------------------------------
-**EXPERIMENT 3: I-RACE for tuning GENCAN: II**
+**Experiment 3: I-RACE for tuning GENCAN: II**
 ---------------------------------------------------------
 
 For this experiment, the algorithm GENCAN from ALGENCAN version 4.0.0 was used, and IRACE was implemented to tune the parameters of interest defined in the dissertation. The training instances employed were taken from CUTEst for unconstrained problems and box-constrained problems.
@@ -112,7 +112,7 @@ where each $\phi_i$ represents a different parameter of the GENCAN algorithm, an
 Rscript Irace_Gencan-4.0.0.R.
 ```
 ---------------------------------------------------------
-**EXPERIMENT 4: I-RACE for tuning ALGENCAN**
+**Experiment 4: I-RACE for tuning ALGENCAN**
 ---------------------------------------------------------
 
 For this experiment, ALGENCAN version 4.0.0 was used, and IRACE was employed to tune the parameters of interest related to the penalty paremeter, defined in the dissertation. The training instances were selected from CUTEst and consisted of nonlinear optimization problems of the form $h(x)=0$, $g(x)\leq 0$, $x\in \Omega$.
@@ -167,12 +167,12 @@ Perspectives 3 (2016), pp. 43–58. issn: 2214-7160. doi: 10.1016/j.orp.2016.09.
 
 7. J. Moré, B. S. Garbow, and K. E. Hillstrom. “Algorithm 566: FORTRAN Subrou-
 tines for Testing Unconstrained Optimization Software [C5], [E4]”. In: ACM Trans.
-Math. Softw. 7.1 (Mar. 1981), pp. 136–140. issn: 0098-3500. doi: 10.1145/355934.
-355943.
+Math. Softw. 7.1 (Mar. 1981), pp. 136–140. issn: 0098-3500. doi: 10.1145/355934.355943.
 
 8. J. J. Moré, B. S. Garbow, and K. E. Hillstrom. “Testing Unconstrained Optimization
 Software”. In: ACM Transactions on Mathematical Software (TOMS) 7.1 (1981),
 pp. 17–41. issn: 0098-3500. doi: 10.1145/355934.35593.
+
 
 
 
