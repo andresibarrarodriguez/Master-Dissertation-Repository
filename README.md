@@ -135,7 +135,40 @@ $\zeta_1$ $\zeta_2$ ./run-nlp problem
 where each $\zeta_i$, represents a different parameter of the ALGENCAN algorithm. Once the compilation step is completed, we proceed to execute the R script using the command: 
 ```bash
 Rscript Irace_Algencan-4.0.0.R.
+
 ```
+
+---------------------------------------------------------
+** References**
+---------------------------------------------------------
+
+1. V. Averbukh, S. Figueroa, and T. Schlick. “HESFCN - A FORTRAN Package of
+Hessian Subroutines for Testing Nonlinear Optimization Software”. In: (June 1994).
+
+2. V. Averbukh, S. Figueroa, and T. Schlick. “Remark on Algorithm 566”. In: ACM
+Trans. Math. Softw. 20.3 (Sept. 1994), pp. 282–285. issn: 0098-3500. doi: 10.1145/
+192115.19212.
+
+3. E. G. Birgin and J. M. Martínez. Practical Augmented Lagrangian Methods for Con-
+strained Optimization. Philadelphia: Society for Industrial and Applied Mathematics
+(SIAM), 2014. isbn: (978-1-61197-335-8). doi: 10.1137/1.9781611973365.
+
+4. E. Dolan and J. J. Moré. “Benchmarking Optimization Software with Performance
+Profiles”. In: Mathematical Programming 91 (Mar. 2001). doi: 10.1007/s101070100263.
+
+5. N. Gould, D. Orban, and P. Toint. “CUTEst: a Constrained and Unconstrained
+Testing Environment with safe threads for Mathematical Optimization”. In: Com-
+putational Optimization and Applications 60 (July 2014). doi: 10.1007/s10589-014-
+9687-3.
+
+6. J. Moré, B. S. Garbow, and K. E. Hillstrom. “Algorithm 566: FORTRAN Subrou-
+tines for Testing Unconstrained Optimization Software [C5], [E4]”. In: ACM Trans.
+Math. Softw. 7.1 (Mar. 1981), pp. 136–140. issn: 0098-3500. doi: 10.1145/355934.
+355943.
+
+7. J. J. Moré, B. S. Garbow, and K. E. Hillstrom. “Testing Unconstrained Optimization
+Software”. In: ACM Transactions on Mathematical Software (TOMS) 7.1 (1981),
+pp. 17–41. issn: 0098-3500. doi: 10.1145/355934.35593.
 
 
 
