@@ -139,7 +139,7 @@ Rscript Irace_Algencan-4.0.0.R.
 ```
 
 ---------------------------------------------------------
-** References**
+**References**
 ---------------------------------------------------------
 
 1. V. Averbukh, S. Figueroa, and T. Schlick. “HESFCN - A FORTRAN Package of
@@ -161,12 +161,16 @@ Testing Environment with safe threads for Mathematical Optimization”. In: Com-
 putational Optimization and Applications 60 (July 2014). doi: 10.1007/s10589-014-
 9687-3.
 
-6. J. Moré, B. S. Garbow, and K. E. Hillstrom. “Algorithm 566: FORTRAN Subrou-
+6. M. López, J. Dubois, L. A. Pérez, T. Stützle, and M. Birattari. “The irace Package:
+Iterated Racing for Automatic Algorithm Configuration”. In: Operations Research
+Perspectives 3 (2016), pp. 43–58. issn: 2214-7160. doi: 10.1016/j.orp.2016.09.002
+
+7. J. Moré, B. S. Garbow, and K. E. Hillstrom. “Algorithm 566: FORTRAN Subrou-
 tines for Testing Unconstrained Optimization Software [C5], [E4]”. In: ACM Trans.
 Math. Softw. 7.1 (Mar. 1981), pp. 136–140. issn: 0098-3500. doi: 10.1145/355934.
 355943.
 
-7. J. J. Moré, B. S. Garbow, and K. E. Hillstrom. “Testing Unconstrained Optimization
+8. J. J. Moré, B. S. Garbow, and K. E. Hillstrom. “Testing Unconstrained Optimization
 Software”. In: ACM Transactions on Mathematical Software (TOMS) 7.1 (1981),
 pp. 17–41. issn: 0098-3500. doi: 10.1145/355934.35593.
 
